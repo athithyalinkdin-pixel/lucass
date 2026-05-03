@@ -17,6 +17,28 @@ const loginSchema = z.object({
 
 const validationMessage = (error) => error.issues?.[0]?.message || error.errors?.[0]?.message || error.message;
 
+const publicAuthErrorMessage = (fallback, error) => {
+    if (process.env.NODE_ENV !== 'production') return validationMessage(error);
+
+    if (error.code === 'ER_NO_SUCH_TABLE') {
+        return 'Database tables are missing. Import backend/schema.sql in phpMyAdmin.';
+    }
+
+    if (error.code === 'ER_ACCESS_DENIED_ERROR') {
+        return 'Database login failed. Check DB_USER and DB_PASSWORD in Render environment variables.';
+    }
+
+    if (['ECONNREFUSED', 'ETIMEDOUT', 'ENOTFOUND', 'ER_DBACCESS_DENIED_ERROR'].includes(error.code)) {
+        return 'Database connection failed. Check DB_HOST, DB_NAME, and Remote MySQL access.';
+    }
+
+    if (error.code === 'ER_DUP_ENTRY') {
+        return 'User already exists';
+    }
+
+    return fallback;
+};
+
 // @desc    Register a new user
 // @route   POST /api/auth/register
 // @access  Public
@@ -56,7 +78,7 @@ const registerUser = async (req, res) => {
         console.error('Registration error:', validationMessage(error));
         res.status(400).json({ 
             success: false,
-            message: process.env.NODE_ENV === 'production' ? 'Registration failed' : validationMessage(error)
+            message: publicAuthErrorMessage('Registration failed', error)
         });
     }
 };
@@ -87,7 +109,7 @@ const loginUser = async (req, res) => {
         console.error('Login error:', validationMessage(error));
         res.status(400).json({ 
             success: false,
-            message: process.env.NODE_ENV === 'production' ? 'Login failed' : validationMessage(error)
+            message: publicAuthErrorMessage('Login failed', error)
         });
     }
 };
