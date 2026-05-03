@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-primary: #1B3022;
+  --color-secondary: #C5A02D;
+  --color-accent: #E8F0EA;
+  --color-bg-off-white: #FBFBFA;
+  
+  /* Fonts */
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+  
+  /* Shadows */
+  --shadow-premium: 0 20px 50px -12px rgba(27, 48, 34, 0.15);
+  --shadow-gold: 0 10px 20px -5px rgba(197, 160, 45, 0.3);
+  --shadow-gold-lg: 0 15px 40px rgba(197, 160, 45, 0.3);
+}
+
+@layer base {
+  body {
+    @apply bg-bg-off-white text-primary font-sans antialiased;
+    scroll-behavior: smooth;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-premium rounded-2xl;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 
+           hover:bg-primary/90 hover:scale-105 active:scale-95 shadow-lg;
+  }
+  
+  .btn-secondary {
+    @apply border-2 border-secondary text-secondary px-8 py-3 rounded-full font-semibold 
+           transition-all duration-300 hover:bg-secondary hover:text-white hover:scale-105 active:scale-95;
+  }
+  
+  .gold-border-hover {
+    @apply border border-transparent transition-colors duration-300 hover:border-secondary;
+  }
+
+  .bg-texture {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232f5233' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-accent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-primary/40 rounded-full hover:bg-primary/60 transition-colors;
+}
+
+/* Animations & Utilities */
+.hero-gradient {
+  background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.1), transparent),
+              radial-gradient(circle at bottom left, rgba(47, 82, 51, 0.05), transparent);
+}
+
+.clip-ribbon {
+  clip-path: polygon(0% 0%, 100% 0%, 85% 50%, 100% 100%, 0% 100%);
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 4s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+
+
