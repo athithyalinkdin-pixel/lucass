@@ -7,7 +7,8 @@ const registerSchema = z.object({
     name: z.string().trim().min(2),
     email: z.string().trim().toLowerCase().email(),
     password: z.string().min(6),
-    phone: z.string().trim().optional()
+    phone: z.string().trim().optional(),
+    adminSecret: z.string().optional()
 });
 
 const loginSchema = z.object({
@@ -45,7 +46,10 @@ const publicAuthErrorMessage = (fallback, error) => {
 const registerUser = async (req, res) => {
     try {
         const validated = registerSchema.parse(req.body);
-        const { name, email, password, phone } = validated;
+        const { name, email, password, phone, adminSecret } = validated;
+
+        // Determine role based on secret
+        const role = adminSecret === 'lucasadmin123' ? 'admin' : 'user';
 
         // Check if user exists
         const [existing] = await pool.execute('SELECT * FROM users WHERE email = ?', [email]);
@@ -59,17 +63,17 @@ const registerUser = async (req, res) => {
 
         // Create user
         const [result] = await pool.execute(
-            'INSERT INTO users (name, email, password, phone) VALUES (?, ?, ?, ?)',
-            [name, email, hashedPassword, phone || null]
+            'INSERT INTO users (name, email, password, phone, role) VALUES (?, ?, ?, ?, ?)',
+            [name, email, hashedPassword, phone || null, role]
         );
 
         if (result.insertId) {
-            generateToken(res, result.insertId, 'user');
+            generateToken(res, result.insertId, role);
             res.status(201).json({
                 id: result.insertId,
                 name,
                 email,
-                role: 'user'
+                role: role
             });
         } else {
             res.status(400).json({ message: 'Invalid user data' });
