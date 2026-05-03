@@ -23,12 +23,16 @@ const getStats = async (req, res) => {
         const [users]    = await pool.execute('SELECT COUNT(*) as count FROM users WHERE role = "user"');
         const [unread]   = await pool.execute('SELECT COUNT(*) as count FROM contact_messages WHERE is_read = FALSE');
         const [lowStock] = await pool.execute('SELECT COUNT(*) as count FROM products WHERE stock < 10');
+        const [blogs]    = await pool.execute('SELECT COUNT(*) as count FROM blog_posts');
+        const [testimonials] = await pool.execute('SELECT COUNT(*) as count FROM testimonials');
 
         res.json({
             totalSales:    sales[0].total || 0,
             totalOrders:   orders[0].count,
             totalProducts: products[0].count,
             totalUsers:    users[0].count,
+            totalBlogs:    blogs[0].count,
+            totalTestimonials: testimonials[0].count,
             unreadMessages: unread[0].count,
             lowStock: lowStock[0].count,
         });
@@ -387,6 +391,82 @@ const deleteTestimonial = async (req, res) => {
     }
 };
 
+// ============================================================
+// USERS
+// ============================================================
+const getAllUsersAdmin = async (req, res) => {
+    try {
+        const [users] = await pool.execute('SELECT id, name, email, phone, role, created_at FROM users ORDER BY created_at DESC');
+        res.json(users);
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).json({ 
+            success: false,
+            message: process.env.NODE_ENV === 'production' ? 'Internal Server Error' : error.message 
+        });
+    }
+};
+
+const userRoleSchema = z.object({
+    role: z.enum(['user', 'admin']),
+});
+
+const updateUserRole = async (req, res) => {
+    try {
+        const { role } = userRoleSchema.parse(req.body);
+        
+        // Prevent removing the last admin (basic check, could be more robust)
+        if (role === 'user') {
+            const [admins] = await pool.execute('SELECT COUNT(*) as count FROM users WHERE role = "admin"');
+            if (admins[0].count <= 1) {
+                return res.status(400).json({ success: false, message: 'Cannot remove the last admin' });
+            }
+        }
+
+        await pool.execute('UPDATE users SET role = ? WHERE id = ?', [role, req.params.id]);
+        res.json({ message: 'User role updated successfully' });
+    } catch (error) {
+        console.error('Error:', error.message);
+        if (error instanceof z.ZodError) return res.status(400).json({ success: false, message: validationMessage(error) });
+        res.status(500).json({ 
+            success: false,
+            message: process.env.NODE_ENV === 'production' ? 'Internal Server Error' : error.message 
+        });
+    }
+};
+
+const bcrypt = require('bcryptjs');
+
+const createUserAdmin = async (req, res) => {
+    try {
+        const { name, email, phone, password, role } = req.body;
+        
+        if (!name || !email || !password || !role) {
+            return res.status(400).json({ success: false, message: 'All fields are required' });
+        }
+
+        const [existing] = await pool.execute('SELECT id FROM users WHERE email = ?', [email]);
+        if (existing.length > 0) {
+            return res.status(400).json({ success: false, message: 'Email already exists' });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        
+        await pool.execute(
+            'INSERT INTO users (name, email, phone, password, role) VALUES (?, ?, ?, ?, ?)',
+            [name, email, phone || null, hashedPassword, role]
+        );
+
+        res.status(201).json({ success: true, message: 'User created successfully' });
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).json({ 
+            success: false,
+            message: process.env.NODE_ENV === 'production' ? 'Internal Server Error' : error.message 
+        });
+    }
+};
+
 module.exports = {
     getStats,
     getAllOrders, updateOrderStatus,
@@ -394,4 +474,5 @@ module.exports = {
     getAllBlogPostsAdmin, createBlogPost, updateBlogPost, deleteBlogPost,
     getMessages, markMessageRead,
     getAllTestimonialsAdmin, createTestimonial, updateTestimonial, deleteTestimonial,
+    getAllUsersAdmin, updateUserRole, createUserAdmin,
 };

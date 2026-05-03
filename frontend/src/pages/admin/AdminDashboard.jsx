@@ -57,11 +57,13 @@ const AdminDashboard = () => {
     { title: 'Total Sales', value: `₹${stats?.totalSales || 0}`, icon: <TrendingUp />, color: 'bg-green-50' },
     { title: 'Total Orders', value: stats?.totalOrders || 0, icon: <ShoppingBag />, color: 'bg-blue-50' },
     { title: 'Products', value: stats?.totalProducts || 0, icon: <Package />, color: 'bg-yellow-50' },
-    { title: 'Users', value: stats?.totalUsers || 0, icon: <Users />, color: 'bg-purple-50' }
+    { title: 'Users', value: stats?.totalUsers || 0, icon: <Users />, color: 'bg-purple-50' },
+    { title: 'Blog Posts', value: stats?.totalBlogs || 0, icon: <FileText />, color: 'bg-orange-50' },
+    { title: 'Testimonials', value: stats?.totalTestimonials || 0, icon: <Star />, color: 'bg-teal-50' }
   ];
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
+    <div className="pt-32 pb-24 px-6 md:px-8 max-w-7xl mx-auto min-h-screen">
       <Helmet>
         <title>Admin Dashboard | Lucas Agro</title>
       </Helmet>
@@ -81,7 +83,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         {statCards.map((card, idx) => (
           <motion.div
             key={idx}
@@ -166,6 +168,10 @@ const AdminDashboard = () => {
             <Link to="/admin/testimonials" className="flex items-center gap-4 p-4 rounded-2xl bg-primary/5 hover:bg-primary hover:text-white transition-all group">
                <Star className="text-secondary group-hover:text-white" size={20} />
                <span className="font-bold text-sm">Manage Testimonials</span>
+            </Link>
+            <Link to="/admin/users" className="flex items-center gap-4 p-4 rounded-2xl bg-primary/5 hover:bg-primary hover:text-white transition-all group">
+               <Users className="text-secondary group-hover:text-white" size={20} />
+               <span className="font-bold text-sm">Manage Users & Roles</span>
             </Link>
             <div className="flex items-center gap-4 p-4 rounded-2xl bg-amber-50">
                <AlertCircle className="text-amber-500" size={20} />

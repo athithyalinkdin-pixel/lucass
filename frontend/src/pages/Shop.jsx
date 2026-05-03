@@ -139,11 +139,11 @@ const Shop = () => {
                 key={product.id}
                 className="glass-card group overflow-hidden flex flex-col h-full"
               >
-                <Link to={`/product/${product.slug}`} className="relative aspect-square bg-white flex items-center justify-center p-10 overflow-hidden">
+                <Link to={`/product/${product.slug}`} className="relative aspect-square bg-white flex items-center justify-center overflow-hidden">
                   <img
                     src={product.image_url || product.image}
                     alt={product.name}
-                    className="h-full object-contain group-hover:scale-110 transition-transform duration-700 drop-shadow-lg"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     onError={(e) => { e.target.src = 'https://placehold.co/400x400?text=Ayurveda'; }}
                   />
                   {/* Floating category tag */}

@@ -34,8 +34,9 @@ const ProductModal = ({ product, categories, onClose, onSave }) => {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       set('image_url', data.url);
-    } catch {
-      setError('Failed to upload image');
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || err.response?.data?.error || err.message || 'Failed to upload image');
     } finally {
       setUploading(false);
     }
@@ -112,13 +113,15 @@ const ProductModal = ({ product, categories, onClose, onSave }) => {
             <input className={inputCls} value={form.tag} onChange={e => set('tag', e.target.value)} placeholder="e.g. Sale, Trending" />
           </div>
 
-          {/* Image URL + Rating */}
+          {/* Image Upload + Rating */}
           <div className="col-span-1">
-            <label className={labelCls}>Image URL</label>
-            <div className="flex gap-2">
-              <input type="text" className={inputCls} value={form.image_url} onChange={e => set('image_url', e.target.value)} placeholder="https://..." />
-              <label className="flex items-center justify-center px-4 bg-accent/20 rounded-xl cursor-pointer hover:bg-accent/40 transition-colors text-xs font-bold text-primary whitespace-nowrap">
-                {uploading ? '...' : 'Upload'}
+            <label className={labelCls}>Product Image</label>
+            <div className="flex flex-col gap-3">
+              {form.image_url && (
+                <img src={form.image_url} alt="Preview" className="w-24 h-24 object-cover rounded-xl border border-accent shadow-sm" />
+              )}
+              <label className="flex items-center justify-center px-4 py-3 bg-secondary/10 text-secondary border border-secondary/20 rounded-xl cursor-pointer hover:bg-secondary/20 transition-colors text-sm font-bold w-full text-center">
+                {uploading ? 'Uploading...' : 'Upload Image from Computer'}
                 <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} />
               </label>
             </div>
@@ -213,7 +216,7 @@ const AdminProducts = () => {
   );
 
   return (
-    <div className="p-6 md:p-8 max-w-7xl mx-auto">
+    <div className="pt-32 pb-24 px-6 md:px-8 max-w-7xl mx-auto min-h-screen">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
         <div>

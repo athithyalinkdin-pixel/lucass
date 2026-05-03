@@ -25,7 +25,7 @@ const configuredOrigins = (process.env.FRONTEND_URL || '')
     .split(',')
     .map((origin) => origin.trim())
     .filter(Boolean);
-const allowedOrigins = [...configuredOrigins, 'http://localhost:5173', 'http://localhost:5174'];
+const allowedOrigins = [...configuredOrigins, 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176'];
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -42,7 +42,7 @@ app.use(express.json());
 // Rate Limiting
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per windowMs
+    max: process.env.NODE_ENV === 'production' ? 100 : 5000, // Limit each IP to 100 requests per windowMs in production, 5000 in dev
     message: 'Too many requests from this IP, please try again after 15 minutes'
 });
 app.use('/api/', limiter);

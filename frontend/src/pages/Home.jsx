@@ -409,14 +409,14 @@ const Home = () => {
               whileHover={{ y: -10 }}
               className="glass-card group overflow-hidden flex flex-col h-full border border-accent/20"
             >
-              <div className="relative aspect-[4/5] bg-bg-off-white flex items-center justify-center p-12 overflow-hidden">
+              <div className="relative aspect-[4/5] bg-bg-off-white flex items-center justify-center overflow-hidden">
                 <div className="absolute top-4 left-4 z-10">
                    {p.tag && <span className="bg-secondary text-white px-4 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full">{p.tag}</span>}
                 </div>
                 <img 
                   src={p.image_url || p.image || (p.images && p.images[0]) || 'https://placehold.co/400x600?text=Ayurveda+Product'} 
                   alt={p.name} 
-                  className="h-full object-contain group-hover:scale-110 transition-transform duration-700 drop-shadow-2xl" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                   onError={(e) => { e.target.src = 'https://placehold.co/400x600?text=Ayurveda+Product'; }}
                 />
               </div>

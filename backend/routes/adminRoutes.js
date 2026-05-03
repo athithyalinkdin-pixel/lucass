@@ -7,6 +7,7 @@ const {
     getAllBlogPostsAdmin, createBlogPost, updateBlogPost, deleteBlogPost,
     getMessages, markMessageRead,
     getAllTestimonialsAdmin, createTestimonial, updateTestimonial, deleteTestimonial,
+    getAllUsersAdmin, updateUserRole, createUserAdmin,
 } = require('../controllers/adminController');
 const { protect, admin } = require('../middleware/auth');
 const upload = require('../middleware/upload');
@@ -43,6 +44,11 @@ router.get('/testimonials', getAllTestimonialsAdmin);
 router.post('/testimonials', createTestimonial);
 router.put('/testimonials/:id', updateTestimonial);
 router.delete('/testimonials/:id', deleteTestimonial);
+
+// ── Users ──────────────────────────────────────────
+router.get('/users', getAllUsersAdmin);
+router.post('/users', createUserAdmin);
+router.put('/users/:id/role', updateUserRole);
 
 // ── Uploads ──────────────────────────────────────────
 router.post('/upload', upload.single('image'), (req, res) => {

@@ -13,7 +13,14 @@ const protect = async (req, res, next) => {
     if (token) {
         try {
             const decoded = jwt.verify(token, JWT_SECRET);
-            req.user = decoded;
+            const pool = require('../config/db');
+            const [users] = await pool.execute('SELECT id, name, email, role FROM users WHERE id = ?', [decoded.id]);
+            
+            if (users.length === 0) {
+                return res.status(401).json({ message: 'Not authorized, user not found' });
+            }
+            
+            req.user = users[0];
             next();
         } catch (error) {
             res.status(401).json({ message: 'Not authorized, token failed' });

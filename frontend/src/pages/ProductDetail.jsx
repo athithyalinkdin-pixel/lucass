@@ -81,12 +81,12 @@ const ProductDetail = () => {
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="glass-card aspect-square bg-white flex items-center justify-center p-12 overflow-hidden shadow-premium"
+            className="glass-card aspect-square bg-white flex items-center justify-center overflow-hidden shadow-premium"
           >
             <img 
               src={product.image_url || product.image} 
               alt={product.name} 
-              className="h-full object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-1000"
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000"
               onError={(e) => { e.target.src = 'https://placehold.co/600x800?text=Premium+Ayurveda'; }}
             />
           </motion.div>

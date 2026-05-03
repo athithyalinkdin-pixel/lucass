@@ -21,6 +21,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminBlog from './pages/admin/AdminBlog';
 import AdminTestimonials from './pages/admin/AdminTestimonials';
+import AdminUsers from './pages/admin/AdminUsers';
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
           <Route path="/admin/products" element={<AdminRoute><AdminProducts /></AdminRoute>} />
           <Route path="/admin/blog" element={<AdminRoute><AdminBlog /></AdminRoute>} />
           <Route path="/admin/testimonials" element={<AdminRoute><AdminTestimonials /></AdminRoute>} />
+          <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
           
           <Route path="/order-success" element={<ProtectedRoute><div className="pt-32 text-center text-primary"><h1 className="text-4xl font-bold mb-4">Order Successful!</h1><p>Thank you for choosing Lucas Agro & Naturals.</p></div></ProtectedRoute>} />
         </Routes>
