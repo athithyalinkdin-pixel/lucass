@@ -6,14 +6,15 @@ const { z } = require('zod');
 const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
 const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET;
 
+let razorpay = null;
 if (!RAZORPAY_KEY_ID || !RAZORPAY_KEY_SECRET) {
-  throw new Error('Razorpay credentials (RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET) are required');
+  console.warn('⚠️ Razorpay credentials (RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET) are missing. Payment routes will be disabled.');
+} else {
+  razorpay = new Razorpay({
+      key_id: RAZORPAY_KEY_ID,
+      key_secret: RAZORPAY_KEY_SECRET,
+  });
 }
-
-const razorpay = new Razorpay({
-    key_id: RAZORPAY_KEY_ID,
-    key_secret: RAZORPAY_KEY_SECRET,
-});
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -96,6 +97,9 @@ const getOrderById = async (req, res) => {
 // @route   POST /api/orders/payment/create
 // @access  Private
 const createRazorpayOrder = async (req, res) => {
+    if (!razorpay) {
+        return res.status(501).json({ success: false, message: 'Razorpay payment gateway is not configured on this server.' });
+    }
     try {
         const options = {
             amount: req.body.amount * 100, // amount in the smallest currency unit
@@ -117,6 +121,9 @@ const createRazorpayOrder = async (req, res) => {
 // @route   POST /api/orders/payment/verify
 // @access  Private
 const verifyPayment = async (req, res) => {
+    if (!RAZORPAY_KEY_SECRET) {
+        return res.status(501).json({ success: false, message: 'Razorpay secret key is not configured on this server.' });
+    }
     const {
         razorpay_order_id,
         razorpay_payment_id,
