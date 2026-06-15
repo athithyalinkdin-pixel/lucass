@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-bg-off-white text-primary font-sans antialiased;
+    background-image: radial-gradient(rgba(27, 48, 34, 0.03) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Custom styling for inputs */
+  input, textarea, select {
+    @apply w-full px-4 py-3 rounded-xl border border-accent bg-white/50 focus:bg-white focus:ring-2 focus:ring-secondary/50 focus:border-secondary outline-none transition-all duration-300 placeholder:text-primary/30 text-primary text-sm;
+  }
+}
+
+@layer components {
+  /* Premium Glassmorphic Cards */
+  .glass-card {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1.5rem; /* 2xl */
+    box-shadow: 0 20px 50px -12px rgba(27, 48, 34, 0.15); /* primary shadow */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-card:hover {
+    box-shadow: 0 30px 60px -10px rgba(27, 48, 34, 0.2);
+    transform: translateY(-2px);
+  }
+
+  /* Premium Primary Button */
+  .btn-primary {
+    @apply bg-primary px-8 py-3 font-semibold text-white rounded-xl shadow-md transition-all duration-300 hover:bg-primary-light hover:shadow-lg hover:-translate-y-[1px] active:translate-y-0 active:scale-95 text-center inline-flex items-center justify-center cursor-pointer;
+  }
+
+  /* Premium Secondary Button */
+  .btn-secondary {
+    @apply border border-accent hover:border-secondary px-8 py-3 font-semibold text-primary rounded-xl transition-all duration-300 hover:bg-secondary/10 active:scale-95 text-center inline-flex items-center justify-center cursor-pointer;
+  }
+}
+
+/* Float Animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 4s ease-in-out 2s infinite;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

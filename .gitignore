@@ -1,0 +1,19 @@
+# Root ignore file for Lucas Agro & Naturals
+
+# Node dependencies
+**/node_modules/
+
+# Production builds
+**/dist/
+extracted_build/
+public_html/
+
+# Environment files
+**/.env
+**/.env.local
+
+# Log files
+**/*.log
+
+# Zip packages
+*.zip

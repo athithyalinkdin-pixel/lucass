@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Environment configurations
+.env
+
+# Persistent mock db store
+config/db_store.json
+
+# Log files
+*.log
+logs/
+temp/
+tmp/
