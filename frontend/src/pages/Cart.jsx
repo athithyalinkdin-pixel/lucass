@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Minus, Plus, Trash2, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { getImageUrl } from '../utils/imageHelper';
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQty, cartTotal } = useCart();
@@ -49,7 +50,7 @@ const Cart = () => {
                     {/* Item Image placeholder or actual image */}
                     <div className="w-24 h-24 bg-accent/20 rounded-2xl flex items-center justify-center overflow-hidden">
                       <img
-                        src={item.image_url || `https://placehold.co/150x150?text=${item.name}`}
+                        src={getImageUrl(item.image_url, item.name)}
                         alt={item.name}
                         className="w-full h-full object-contain p-2"
                         onError={(e) => {

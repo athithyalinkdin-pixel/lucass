@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Search, Filter, Plus } from 'lucide-react';
 import api from '../services/api';
 import { useCart } from '../context/CartContext';
+import { getImageUrl } from '../utils/imageHelper';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -37,7 +38,7 @@ const Shop = () => {
             description: 'Premium Ayurvedic blend for natural fat reduction.',
             category_id: 1,
             category_name: 'Weight Management',
-            image_url: '',
+            image_url: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop',
           },
           {
             id: 2,
@@ -48,7 +49,7 @@ const Shop = () => {
             description: 'Traditional support for healthy sugar balance.',
             category_id: 2,
             category_name: 'Sugar Balance',
-            image_url: '',
+            image_url: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=500&auto=format&fit=crop',
           },
         ]);
         setCategories([
@@ -182,7 +183,7 @@ const Shop = () => {
                   className="relative aspect-square bg-white flex items-center justify-center p-10 overflow-hidden"
                 >
                   <img
-                    src={product.image_url || `https://placehold.co/400x400?text=${product.name}`}
+                    src={getImageUrl(product.image_url, product.name)}
                     alt={product.name}
                     className="h-full object-contain group-hover:scale-110 transition-transform duration-700 drop-shadow-lg"
                     onError={(e) => {

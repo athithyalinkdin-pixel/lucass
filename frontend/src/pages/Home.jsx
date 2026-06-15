@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowUpRight, Check, Award, FlaskConical, Leaf, Star, ChevronDown, Calendar, User } from 'lucide-react';
 import api from '../services/api';
+import { getImageUrl } from '../utils/imageHelper';
 
 const renderTestimonialMedia = (url, name) => {
   if (!url) {
@@ -54,7 +55,7 @@ const renderTestimonialMedia = (url, name) => {
   // Treat as image URL
   return (
     <img
-      src={url}
+      src={getImageUrl(url, name)}
       alt={name}
       className="w-full h-full object-cover"
       onError={(e) => {
@@ -72,7 +73,7 @@ const Home = () => {
       subtitle: 'Supports Heart Health',
       price: '1099',
       oldPrice: '1299',
-      image_url: '',
+      image_url: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop',
       tag: 'Sale',
       rating: 4.8,
     },
@@ -82,7 +83,7 @@ const Home = () => {
       subtitle: 'Sugar Support Syrup',
       price: '1099',
       oldPrice: '1299',
-      image_url: '',
+      image_url: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=500&auto=format&fit=crop',
       tag: 'Trending',
       rating: 4.9,
     },
@@ -506,7 +507,7 @@ const Home = () => {
                     )}
                   </div>
                   <img
-                    src={product.image_url || `https://placehold.co/400x600?text=${product.name}`}
+                    src={getImageUrl(product.image_url, product.name)}
                     alt={product.name}
                     className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700 drop-shadow-xl"
                     onError={(e) => {
@@ -868,7 +869,7 @@ const Home = () => {
                 >
                   <div className="relative aspect-[16/10] overflow-hidden">
                     <img
-                      src={blog.featured_image || 'https://images.unsplash.com/photo-1540331547168-8b63109225b7?auto=format&fit=crop&q=80&w=800'}
+                      src={getImageUrl(blog.featured_image) || 'https://images.unsplash.com/photo-1540331547168-8b63109225b7?auto=format&fit=crop&q=80&w=800'}
                       alt={blog.title}
                       className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                       onError={(e) => {

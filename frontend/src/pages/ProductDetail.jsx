@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Check, Leaf, Award, Activity, ShoppingCart } from 'lucide-react';
 import api from '../services/api';
 import { useCart } from '../context/CartContext';
+import { getImageUrl } from '../utils/imageHelper';
 
 const ProductDetail = () => {
   const { slug } = useParams();
@@ -29,7 +30,7 @@ const ProductDetail = () => {
             price: 1099,
             original_price: 1299,
             slug: 'amala-plus',
-            image_url: '',
+            image_url: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop',
             description: "Experience the power of nature with Amala Plus. Our unique Ayurvedic formulation is designed to support natural fat reduction and detoxification. Made with 100% pure herbal extracts, it's gentle on your body but effective for long-term wellness.",
             benefits: 'Supports natural fat reduction\nDetoxifies the body\nImproves digestion',
             ingredients: 'Amla (Phyllanthus emblica), Garcinia Cambogia, Green Tea Extract, Honey, and Lemon juice base.',
@@ -44,7 +45,7 @@ const ProductDetail = () => {
             price: 1099,
             original_price: 1299,
             slug: 'avaram-poo-plus',
-            image_url: '',
+            image_url: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=500&auto=format&fit=crop',
             description: 'Avaram Poo Plus is a traditional Ayurvedic syrup formulated to support healthy sugar balance and heart health. It combines ancient wisdom with modern quality standards to provide a safe, effective solution for modern lifestyle challenges.',
             benefits: 'Helps manage sugar levels\nSupports heart health\nBoosts daily energy',
             ingredients: 'Avaram Poo (Senna auriculata), Jamun Seed, Fenugreek, Gymnema Sylvestre, and organic syrup base.',
@@ -122,7 +123,7 @@ const ProductDetail = () => {
             className="glass-card aspect-square bg-white flex items-center justify-center p-12 overflow-hidden shadow-premium"
           >
             <img
-              src={product.image_url || `https://placehold.co/400x400?text=${product.name}`}
+              src={getImageUrl(product.image_url, product.name)}
               alt={product.name}
               className="h-full object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-1000"
               onError={(e) => {
