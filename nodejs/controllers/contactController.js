@@ -4,17 +4,18 @@ const nodemailer = require('nodemailer');
 const EMAIL_USER = process.env.EMAIL_USER;
 const EMAIL_PASS = process.env.EMAIL_PASS;
 
+let transporter = null;
 if (!EMAIL_USER || !EMAIL_PASS) {
-  throw new Error('Email credentials (EMAIL_USER, EMAIL_PASS) are required');
+  console.warn('⚠️ Email credentials (EMAIL_USER, EMAIL_PASS) are missing. Contact form email notifications will be disabled.');
+} else {
+  transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: EMAIL_USER,
+      pass: EMAIL_PASS
+    }
+  });
 }
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: EMAIL_USER,
-    pass: EMAIL_PASS
-  }
-});
 
 const submitContactForm = async (req, res) => {
   try {
@@ -48,9 +49,13 @@ const submitContactForm = async (req, res) => {
     };
 
     // We don't block the response on email sending, but we log if it fails.
-    transporter.sendMail(mailOptions).catch(err => {
-      console.error('Failed to send contact email:', err);
-    });
+    if (transporter) {
+      transporter.sendMail(mailOptions).catch(err => {
+        console.error('Failed to send contact email:', err);
+      });
+    } else {
+      console.warn('Email notification skipped because email credentials are not configured.');
+    }
 
     res.status(201).json({ message: 'Message sent successfully', id: result.insertId });
   } catch (error) {
