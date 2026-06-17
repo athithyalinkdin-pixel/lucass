@@ -253,7 +253,7 @@ const About = () => {
                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-white flex items-center justify-center p-6 border-2 border-accent/30 shadow-md transition-all duration-500 group-hover:shadow-secondary/30 group-hover:border-secondary overflow-hidden relative">
                   <div className="absolute inset-0 bg-gradient-to-tr from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <img
-                    src={`/src/assets/${cert.url}`}
+                    src={`/assets/${cert.url}`}
                     alt={cert.name}
                     className="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
                     onError={(e) => {

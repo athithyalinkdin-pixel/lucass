@@ -20,19 +20,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const uploadPath = path.join(__dirname, '../public/uploads');
-        if (!fs.existsSync(uploadPath)) {
-            fs.mkdirSync(uploadPath, { recursive: true });
-        }
-        cb(null, uploadPath);
-    },
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
-    }
-});
+const storage = multer.memoryStorage();
 
 const upload = multer({
     storage: storage,
@@ -41,12 +29,55 @@ const upload = multer({
     }
 });
 
-router.post('/upload', upload.single('image'), (req, res) => {
+router.post('/upload', upload.single('image'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ success: false, message: 'No file uploaded' });
     }
-    const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-    res.json({ success: true, url: fileUrl });
+
+    try {
+        const uploaderSecret = process.env.UPLOADER_SECRET || 'LucasAgroMediaUploaderSecret2026!';
+        const hostingerUploadUrl = 'https://lucasagronaturals.com/upload.php';
+
+        // Create FormData from memory buffer
+        const formData = new FormData();
+        const blob = new Blob([req.file.buffer], { type: req.file.mimetype });
+        formData.append('image', blob, req.file.originalname);
+
+        const response = await fetch(hostingerUploadUrl, {
+            method: 'POST',
+            headers: {
+                'X-Upload-Token': uploaderSecret
+            },
+            body: formData
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Hostinger upload failed:', errorText);
+            return res.status(response.status).json({
+                success: false,
+                message: `Hostinger upload failed: ${response.statusText}`,
+                details: errorText
+            });
+        }
+
+        const data = await response.json();
+        if (data && data.success) {
+            return res.json({ success: true, url: data.url });
+        } else {
+            return res.status(500).json({
+                success: false,
+                message: data.message || 'Hostinger upload returned failure'
+            });
+        }
+    } catch (error) {
+        console.error('Error forwarding file to Hostinger:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal server error while forwarding upload',
+            error: error.message
+        });
+    }
 });
 
 // ── Stats ──────────────────────────────────────────

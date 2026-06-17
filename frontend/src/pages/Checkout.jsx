@@ -19,6 +19,9 @@ const Checkout = () => {
     zip: '',
   });
 
+  const shippingCost = cartTotal >= 1500 ? 0 : 100;
+  const grandTotal = cartTotal + shippingCost;
+
   const handleInputChange = (e) => {
     setShippingAddress({
       ...shippingAddress,
@@ -48,15 +51,18 @@ const Checkout = () => {
     }
 
     try {
-      // 1. Create Razorpay order on backend
+      // 1. Create Razorpay order on backend with item IDs and quantities for server-side verification
       const { data: orderData } = await api.post('/orders/payment/create', {
-        amount: cartTotal,
+        orderItems: cartItems.map((item) => ({
+          id: item.id,
+          qty: item.qty,
+        })),
         currency: 'INR',
       });
 
       // 2. Open Razorpay Checkout modal
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_yourkeyid', // Safe configurable key
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_yourkeyid', // Configurable key
         amount: orderData.amount,
         currency: orderData.currency,
         name: 'Lucas Agro & Naturals',
@@ -72,10 +78,8 @@ const Checkout = () => {
               shippingAddress,
               orderItems: cartItems.map((item) => ({
                 id: item.id,
-                price: item.price,
                 qty: item.qty,
-              })),
-              totalPrice: cartTotal,
+              }))
             };
 
             const { data: verifyData } = await api.post('/orders/payment/verify', verificationPayload);
@@ -103,7 +107,9 @@ const Checkout = () => {
       rzp.open();
     } catch (err) {
       console.error('Error creating payment order:', err);
-      alert('Error creating payment order');
+      // Check if backend returned a specific error message (e.g. stock limits)
+      const errorMessage = err.response?.data?.message || 'Error creating payment order';
+      alert(errorMessage);
     } finally {
       setProcessing(false);
     }
@@ -237,9 +243,20 @@ const Checkout = () => {
                 ))}
               </div>
 
+              <div className="space-y-4 mb-8 pb-8 border-b border-white/10">
+                <div className="flex justify-between text-sm">
+                  <span className="opacity-80">Subtotal</span>
+                  <span>₹{cartTotal}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="opacity-80">Shipping</span>
+                  <span>{shippingCost === 0 ? 'Free' : `₹${shippingCost}`}</span>
+                </div>
+              </div>
+
               <div className="flex justify-between text-2xl font-bold mb-10 font-serif">
                 <span>Total Amount</span>
-                <span className="text-secondary">₹{cartTotal}</span>
+                <span className="text-secondary">₹{grandTotal}</span>
               </div>
 
               <button

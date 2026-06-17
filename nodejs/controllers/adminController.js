@@ -63,13 +63,45 @@ const orderStatusSchema = z.object({
 });
 
 const updateOrderStatus = async (req, res) => {
+    const connection = await pool.getConnection();
     try {
+        await connection.beginTransaction();
+
         const { status } = orderStatusSchema.parse(req.body);
-        await pool.execute('UPDATE orders SET status = ? WHERE id = ?', [status, req.params.id]);
-        res.json({ message: 'Order status updated' });
+        const orderId = req.params.id;
+
+        // Fetch current order status to prevent double stock recovery
+        const [orders] = await connection.execute('SELECT status FROM orders WHERE id = ?', [orderId]);
+        if (orders.length === 0) {
+            await connection.rollback();
+            return res.status(404).json({ success: false, message: 'Order not found' });
+        }
+
+        const currentStatus = orders[0].status;
+
+        // Update status
+        await connection.execute('UPDATE orders SET status = ? WHERE id = ?', [status, orderId]);
+
+        // If transitioning to cancelled from a non-cancelled state, restore stock
+        if (status === 'cancelled' && currentStatus !== 'cancelled') {
+            const [items] = await connection.execute('SELECT product_id, quantity FROM order_items WHERE order_id = ?', [orderId]);
+            for (const item of items) {
+                await connection.execute(
+                    'UPDATE products SET stock = stock + ? WHERE id = ?',
+                    [item.quantity, item.product_id]
+                );
+            }
+        }
+
+        await connection.commit();
+        res.json({ message: 'Order status updated successfully' });
     } catch (error) {
+        await connection.rollback();
+        console.error('Error updating order status:', error.message);
         if (error instanceof z.ZodError) return res.status(400).json({ message: error.errors[0].message });
         res.status(500).json({ message: error.message });
+    } finally {
+        connection.release();
     }
 };
 

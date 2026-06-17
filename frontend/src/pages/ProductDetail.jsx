@@ -12,6 +12,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -120,14 +121,23 @@ const ProductDetail = () => {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="glass-card aspect-square bg-white flex items-center justify-center p-12 overflow-hidden shadow-premium"
+            className="glass-card w-full aspect-square bg-white flex items-center justify-center p-6 overflow-hidden shadow-premium max-w-[400px] max-h-[400px] mx-auto relative"
           >
+            {!imageLoaded && (
+              <div className="absolute inset-0 bg-accent/10 animate-pulse flex items-center justify-center">
+                <div className="w-8 h-8 border-2 border-secondary/20 border-t-secondary rounded-full animate-spin" />
+              </div>
+            )}
             <img
               src={getImageUrl(product.image_url, product.name)}
               alt={product.name}
-              className="h-full object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-1000"
+              onLoad={() => setImageLoaded(true)}
+              className={`w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-1000 ${
+                imageLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
               onError={(e) => {
-                e.target.src = 'https://placehold.co/600x800?text=Premium+Ayurveda';
+                e.target.src = 'https://placehold.co/400x400?text=Premium+Ayurveda';
+                setImageLoaded(true);
               }}
             />
           </motion.div>

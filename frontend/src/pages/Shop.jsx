@@ -7,6 +7,34 @@ import api from '../services/api';
 import { useCart } from '../context/CartContext';
 import { getImageUrl } from '../utils/imageHelper';
 
+const ProductImage = ({ src, alt, categoryName }) => {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <div className="relative w-full aspect-square bg-white flex items-center justify-center p-6 overflow-hidden max-w-[400px] max-h-[400px] mx-auto">
+      {!loaded && (
+        <div className="absolute inset-0 bg-accent/10 animate-pulse flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-secondary/20 border-t-secondary rounded-full animate-spin" />
+        </div>
+      )}
+      <img
+        src={src}
+        alt={alt}
+        onLoad={() => setLoaded(true)}
+        className={`w-full h-full object-contain group-hover:scale-105 transition-all duration-700 drop-shadow-lg ${
+          loaded ? 'opacity-100' : 'opacity-0'
+        }`}
+        onError={(e) => {
+          e.target.src = 'https://placehold.co/400x400?text=Ayurveda';
+          setLoaded(true);
+        }}
+      />
+      <div className="absolute top-4 left-4 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-secondary">
+        {categoryName || 'Ayurveda'}
+      </div>
+    </div>
+  );
+};
+
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -178,21 +206,12 @@ const Shop = () => {
                 className="glass-card group overflow-hidden flex flex-col h-full"
               >
                 {/* Product Image */}
-                <Link
-                  to={`/product/${product.slug}`}
-                  className="relative aspect-square bg-white flex items-center justify-center p-10 overflow-hidden"
-                >
-                  <img
+                <Link to={`/product/${product.slug}`}>
+                  <ProductImage
                     src={getImageUrl(product.image_url, product.name)}
                     alt={product.name}
-                    className="h-full object-contain group-hover:scale-110 transition-transform duration-700 drop-shadow-lg"
-                    onError={(e) => {
-                      e.target.src = 'https://placehold.co/400x400?text=Ayurveda';
-                    }}
+                    categoryName={product.category_name}
                   />
-                  <div className="absolute top-4 left-4 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-secondary">
-                    {product.category_name || 'Ayurveda'}
-                  </div>
                 </Link>
 
                 {/* Info & Cart Action */}

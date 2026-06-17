@@ -66,28 +66,7 @@ const renderTestimonialMedia = (url, name) => {
 };
 
 const Home = () => {
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: 'AMALA PLUS',
-      subtitle: 'Supports Heart Health',
-      price: '1099',
-      oldPrice: '1299',
-      image_url: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop',
-      tag: 'Sale',
-      rating: 4.8,
-    },
-    {
-      id: 2,
-      name: 'AVARAM POO PLUS',
-      subtitle: 'Sugar Support Syrup',
-      price: '1099',
-      oldPrice: '1299',
-      image_url: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=500&auto=format&fit=crop',
-      tag: 'Trending',
-      rating: 4.9,
-    },
-  ]);
+  const [products, setProducts] = useState([]);
 
   const [activeFaq, setActiveFaq] = useState(null);
   const [testimonials, setTestimonials] = useState([]);
