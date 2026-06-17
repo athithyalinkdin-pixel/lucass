@@ -29,6 +29,23 @@ const upload = multer({
     }
 });
 
+const saveLocally = (req, res) => {
+    const uploadPath = path.join(__dirname, '../public/uploads');
+    if (!fs.existsSync(uploadPath)) {
+        fs.mkdirSync(uploadPath, { recursive: true });
+    }
+    
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const ext = path.extname(req.file.originalname) || '.png';
+    const filename = uniqueSuffix + ext;
+    const destPath = path.join(uploadPath, filename);
+    
+    fs.writeFileSync(destPath, req.file.buffer);
+    
+    const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${filename}`;
+    return res.json({ success: true, url: fileUrl, fallback: true });
+};
+
 router.post('/upload', upload.single('image'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ success: false, message: 'No file uploaded' });
@@ -53,30 +70,28 @@ router.post('/upload', upload.single('image'), async (req, res) => {
 
         if (!response.ok) {
             const errorText = await response.text();
-            console.error('Hostinger upload failed:', errorText);
-            return res.status(response.status).json({
-                success: false,
-                message: `Hostinger upload failed: ${response.statusText}`,
-                details: errorText
-            });
+            console.warn('Hostinger upload failed, falling back to local storage:', errorText.substring(0, 500));
+            return saveLocally(req, res);
         }
 
         const data = await response.json();
         if (data && data.success) {
             return res.json({ success: true, url: data.url });
         } else {
-            return res.status(500).json({
-                success: false,
-                message: data.message || 'Hostinger upload returned failure'
-            });
+            console.warn('Hostinger uploader returned success:false, falling back to local storage:', data.message);
+            return saveLocally(req, res);
         }
     } catch (error) {
-        console.error('Error forwarding file to Hostinger:', error);
-        return res.status(500).json({
-            success: false,
-            message: 'Internal server error while forwarding upload',
-            error: error.message
-        });
+        console.warn('Error forwarding file to Hostinger, falling back to local storage:', error.message);
+        try {
+            return saveLocally(req, res);
+        } catch (localError) {
+            return res.status(500).json({
+                success: false,
+                message: 'Upload failed on both Hostinger and local storage fallback.',
+                error: localError.message
+            });
+        }
     }
 });
 
