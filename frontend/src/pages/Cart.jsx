@@ -73,7 +73,7 @@ const Cart = () => {
                           >
                             <Minus size={16} />
                           </button>
-                          <span className="w-8 text-center font-bold text-sm">{item.qty}</span>
+                          <span className="w-8 text-center font-bold text-sm text-primary">{item.qty}</span>
                           <button
                             onClick={() => updateQty(item.id, item.qty + 1)}
                             className="p-1 text-primary hover:text-secondary transition-colors"

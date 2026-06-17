@@ -214,7 +214,7 @@ const ProductDetail = () => {
                   type="number"
                   value={quantity}
                   onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-                  className="w-12 text-center bg-transparent font-bold focus:outline-none"
+                  className="w-12 text-center bg-transparent font-bold text-primary focus:outline-none"
                 />
                 <button
                   onClick={() => setQuantity(quantity + 1)}
