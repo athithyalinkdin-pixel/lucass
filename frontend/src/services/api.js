@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Get API base URL from environment or fall back to the Render deployment API
-const API_URL = import.meta.env.VITE_API_URL || 'https://lucass-6.onrender.com/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://lucass-7.onrender.com/api';
 
 const api = axios.create({
   baseURL: API_URL,
