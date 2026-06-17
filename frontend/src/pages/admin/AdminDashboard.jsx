@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { DollarSign, ShoppingBag, Package, Users, LogOut, FileText, Star, AlertTriangle, Mail, Award } from 'lucide-react';
+import { DollarSign, ShoppingBag, Package, Users, LogOut, FileText, Star, AlertTriangle, Mail, Award, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
+import AdminNav from '../../components/AdminNav';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
@@ -108,6 +109,9 @@ const AdminDashboard = () => {
       </Helmet>
 
       <div className="p-8 max-w-7xl mx-auto">
+        {/* Admin Navigation Tabs */}
+        <AdminNav />
+
         {/* Header */}
         <div className="flex justify-between items-center mb-10">
           <div>
@@ -179,6 +183,8 @@ const AdminDashboard = () => {
                             order.status === 'delivered'
                               ? 'bg-green-100 text-green-700 border-green-200'
                               : order.status === 'shipped'
+                              ? 'bg-indigo-100 text-indigo-700 border-indigo-200'
+                              : order.status === 'processing'
                               ? 'bg-blue-100 text-blue-700 border-blue-200'
                               : order.status === 'paid'
                               ? 'bg-purple-100 text-purple-700 border-purple-200'
@@ -188,6 +194,7 @@ const AdminDashboard = () => {
                           }`}
                         >
                           <option value="pending">Pending</option>
+                          <option value="processing">Processing</option>
                           <option value="paid">Paid</option>
                           <option value="shipped">Shipped</option>
                           <option value="delivered">Delivered</option>
@@ -205,6 +212,13 @@ const AdminDashboard = () => {
           <div className="glass-card p-8 border border-accent/20">
             <h3 className="text-xl font-bold text-primary mb-8 font-serif">Quick Actions</h3>
             <div className="grid gap-3">
+              <Link
+                to="/admin/orders"
+                className="flex items-center gap-4 p-4 rounded-2xl bg-primary/5 hover:bg-primary hover:text-white transition-all group border border-accent/20"
+              >
+                <ShoppingBag className="text-secondary group-hover:text-white" size={20} />
+                <span className="font-bold text-sm">Manage Orders</span>
+              </Link>
               <Link
                 to="/admin/products"
                 className="flex items-center gap-4 p-4 rounded-2xl bg-primary/5 hover:bg-primary hover:text-white transition-all group border border-accent/20"

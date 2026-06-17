@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Package, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
+import AdminNav from '../../components/AdminNav';
 
 const ManageFeatured = () => {
   const [products, setProducts] = useState([]);
@@ -71,6 +72,9 @@ const ManageFeatured = () => {
       </Helmet>
 
       <div className="p-6 md:p-8 max-w-5xl mx-auto">
+        {/* Admin Navigation Tabs */}
+        <AdminNav />
+
         {/* Toast Notification */}
         <AnimatePresence>
           {toastMessage && (

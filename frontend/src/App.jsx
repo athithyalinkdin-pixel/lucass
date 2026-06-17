@@ -30,6 +30,7 @@ const ManageBlog = React.lazy(() => import('./pages/admin/ManageBlog'));
 const ManageTestimonials = React.lazy(() => import('./pages/admin/ManageTestimonials'));
 const ManageRoles = React.lazy(() => import('./pages/admin/ManageRoles'));
 const ManageFeatured = React.lazy(() => import('./pages/admin/ManageFeatured'));
+const ManageOrders = React.lazy(() => import('./pages/admin/ManageOrders'));
 
 // Sleek loading skeleton
 const PageLoading = () => (
@@ -88,6 +89,14 @@ function App() {
               element={
                 <AdminRoute>
                   <AdminDashboard />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/orders"
+              element={
+                <AdminRoute>
+                  <ManageOrders />
                 </AdminRoute>
               }
             />

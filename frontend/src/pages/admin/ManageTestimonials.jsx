@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Star, Edit, Trash2, X, Film } from 'lucide-react';
 import api from '../../services/api';
+import AdminNav from '../../components/AdminNav';
 
 // Testimonial Form Modal Component
 const TestimonialEditModal = ({ testimonial, onClose, onSave }) => {
@@ -390,6 +391,9 @@ const ManageTestimonials = () => {
       </Helmet>
 
       <div className="p-6 md:p-8 max-w-7xl mx-auto">
+        {/* Admin Navigation Tabs */}
+        <AdminNav />
+
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 text-left">
           <div>

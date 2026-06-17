@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Users, Shield, ArrowLeft, Search, Trash2, ShieldCheck, ShieldAlert } from 'lucide-react';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import AdminNav from '../../components/AdminNav';
 
 const ManageRoles = () => {
   const [users, setUsers] = useState([]);
@@ -89,6 +90,9 @@ const ManageRoles = () => {
       </Helmet>
 
       <div className="p-8 max-w-7xl mx-auto">
+        {/* Admin Navigation Tabs */}
+        <AdminNav />
+
         {/* Back Link */}
         <Link
           to="/admin"

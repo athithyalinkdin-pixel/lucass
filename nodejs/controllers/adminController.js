@@ -48,6 +48,21 @@ const getAllOrders = async (req, res) => {
             LEFT JOIN users u ON o.user_id = u.id
             ORDER BY o.created_at DESC
         `);
+
+        if (orders.length > 0) {
+            // Fetch all order items and their products
+            const [items] = await pool.execute(`
+                SELECT oi.*, p.name as product_name, p.image_url
+                FROM order_items oi
+                LEFT JOIN products p ON oi.product_id = p.id
+            `);
+
+            // Map items to their respective orders
+            orders.forEach(order => {
+                order.items = items.filter(item => item.order_id === order.id);
+            });
+        }
+
         res.json(orders);
     } catch (error) {
         console.error('Error:', error.message);
@@ -59,7 +74,7 @@ const getAllOrders = async (req, res) => {
 };
 
 const orderStatusSchema = z.object({
-    status: z.enum(['pending', 'paid', 'shipped', 'delivered', 'cancelled']),
+    status: z.enum(['pending', 'processing', 'paid', 'shipped', 'delivered', 'cancelled']),
 });
 
 const updateOrderStatus = async (req, res) => {
