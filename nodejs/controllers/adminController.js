@@ -112,6 +112,7 @@ const productSchema = z.object({
     name:           z.string().min(2).max(255),
     price:          z.number().positive(),
     original_price: z.number().positive().nullable().optional(),
+    shipping_cost:  z.number().min(0).optional().default(0.00),
     stock:          z.number().int().min(0),
     description:    z.string().min(5),
     ingredients:    z.string().optional().nullable(),
@@ -150,6 +151,7 @@ const createProduct = async (req, res) => {
             ...req.body,
             price:          parseFloat(req.body.price),
             original_price: req.body.original_price ? parseFloat(req.body.original_price) : null,
+            shipping_cost:  req.body.shipping_cost ? parseFloat(req.body.shipping_cost) : 0.00,
             stock:          parseInt(req.body.stock),
             category_id:    parseInt(req.body.category_id),
             rating:         req.body.rating ? parseFloat(req.body.rating) : 4.5,
@@ -161,9 +163,9 @@ const createProduct = async (req, res) => {
 
         const [result] = await pool.execute(
             `INSERT INTO products 
-            (name, slug, price, original_price, stock, description, ingredients, benefits, offers, image_url, subtitle, rating, tag, category_id, is_active, is_featured) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [data.name, slug, data.price, data.original_price, data.stock, data.description,
+            (name, slug, price, original_price, shipping_cost, stock, description, ingredients, benefits, offers, image_url, subtitle, rating, tag, category_id, is_active, is_featured) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [data.name, slug, data.price, data.original_price, data.shipping_cost, data.stock, data.description,
              data.ingredients, data.benefits, data.offers, data.image_url, data.subtitle, data.rating, data.tag, data.category_id, data.is_active, data.is_featured]
         );
 
@@ -185,6 +187,7 @@ const updateProduct = async (req, res) => {
             ...req.body,
             price:          parseFloat(req.body.price),
             original_price: req.body.original_price ? parseFloat(req.body.original_price) : null,
+            shipping_cost:  req.body.shipping_cost ? parseFloat(req.body.shipping_cost) : 0.00,
             stock:          parseInt(req.body.stock),
             category_id:    parseInt(req.body.category_id),
             rating:         req.body.rating ? parseFloat(req.body.rating) : 4.5,
@@ -194,10 +197,10 @@ const updateProduct = async (req, res) => {
 
         await pool.execute(
             `UPDATE products SET 
-            name=?, price=?, original_price=?, stock=?, description=?, ingredients=?, 
+            name=?, price=?, original_price=?, shipping_cost=?, stock=?, description=?, ingredients=?, 
             benefits=?, offers=?, image_url=?, subtitle=?, rating=?, tag=?, category_id=?, is_active=?, is_featured=?
             WHERE id=?`,
-            [data.name, data.price, data.original_price, data.stock, data.description,
+            [data.name, data.price, data.original_price, data.shipping_cost, data.stock, data.description,
              data.ingredients, data.benefits, data.offers, data.image_url, data.subtitle,
              data.rating, data.tag, data.category_id, data.is_active, data.is_featured, req.params.id]
         );

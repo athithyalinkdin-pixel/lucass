@@ -19,7 +19,7 @@ const Checkout = () => {
     zip: '',
   });
 
-  const shippingCost = cartTotal >= 1500 ? 0 : 100;
+  const shippingCost = cartItems.reduce((total, item) => total + parseFloat(item.shipping_cost || 0) * item.qty, 0);
   const grandTotal = cartTotal + shippingCost;
 
   const handleInputChange = (e) => {

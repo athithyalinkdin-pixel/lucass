@@ -110,11 +110,12 @@ const createRazorpayOrder = async (req, res) => {
         // Fetch products from database to verify prices and stock
         const itemIds = orderItems.map(item => item.id);
         const [products] = await pool.query(
-            'SELECT id, price, name, stock FROM products WHERE id IN (' + itemIds.map(() => '?').join(',') + ')',
+            'SELECT id, price, name, stock, shipping_cost FROM products WHERE id IN (' + itemIds.map(() => '?').join(',') + ')',
             itemIds
         );
 
         let calculatedSubtotal = 0;
+        let calculatedShipping = 0;
         
         // Match items and verify stock
         for (const item of orderItems) {
@@ -126,10 +127,10 @@ const createRazorpayOrder = async (req, res) => {
                 return res.status(400).json({ success: false, message: `Insufficient stock for ${dbProduct.name}. Only ${dbProduct.stock} units remaining.` });
             }
             calculatedSubtotal += parseFloat(dbProduct.price) * item.qty;
+            calculatedShipping += parseFloat(dbProduct.shipping_cost || 0) * item.qty;
         }
 
-        // Apply Shipping (Flat rate ₹100 or free above ₹1500)
-        const shipping = calculatedSubtotal >= 1500 ? 0 : 100;
+        const shipping = calculatedShipping;
         const totalAmount = calculatedSubtotal + shipping;
 
         const options = {
@@ -186,11 +187,12 @@ const verifyPayment = async (req, res) => {
             // 1. Double check and fetch actual prices from DB
             const itemIds = orderItems.map(item => item.id);
             const [products] = await connection.query(
-                'SELECT id, price, name, stock FROM products WHERE id IN (' + itemIds.map(() => '?').join(',') + ') FOR UPDATE',
+                'SELECT id, price, name, stock, shipping_cost FROM products WHERE id IN (' + itemIds.map(() => '?').join(',') + ') FOR UPDATE',
                 itemIds
             );
 
             let calculatedSubtotal = 0;
+            let calculatedShipping = 0;
             
             // Match items, verify stock, and sum subtotal
             for (const item of orderItems) {
@@ -204,9 +206,10 @@ const verifyPayment = async (req, res) => {
                     return res.status(400).json({ success: false, message: `Insufficient stock for ${dbProduct.name}.` });
                 }
                 calculatedSubtotal += parseFloat(dbProduct.price) * item.qty;
+                calculatedShipping += parseFloat(dbProduct.shipping_cost || 0) * item.qty;
             }
 
-            const shipping = calculatedSubtotal >= 1500 ? 0 : 100;
+            const shipping = calculatedShipping;
             const verifiedTotal = calculatedSubtotal + shipping;
 
             // 2. Insert order

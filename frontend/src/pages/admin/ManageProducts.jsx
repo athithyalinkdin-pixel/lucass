@@ -10,6 +10,7 @@ const ProductEditModal = ({ product, categories, onClose, onSave }) => {
     name: '',
     price: '',
     original_price: '',
+    shipping_cost: '0.00',
     stock: '',
     description: '',
     ingredients: '',
@@ -150,6 +151,20 @@ const ProductEditModal = ({ product, categories, onClose, onSave }) => {
               value={formData.original_price || ''}
               onChange={(e) => handleFieldChange('original_price', e.target.value)}
               placeholder="1299"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-primary/50 uppercase tracking-wider mb-1.5">Shipping Cost (₹) *</label>
+            <input
+              required
+              type="number"
+              step="0.01"
+              min="0"
+              className="w-full bg-bg-off-white border border-accent rounded-xl px-4 py-3 focus:outline-none focus:border-secondary transition-colors text-sm"
+              value={formData.shipping_cost}
+              onChange={(e) => handleFieldChange('shipping_cost', e.target.value)}
+              placeholder="0"
             />
           </div>
 
@@ -489,6 +504,7 @@ const ManageProducts = () => {
                         {p.original_price && (
                           <p className="text-xs text-primary/40 line-through">₹{p.original_price}</p>
                         )}
+                        <p className="text-[10px] text-secondary font-bold mt-1">Shipping: ₹{parseFloat(p.shipping_cost || 0)}</p>
                       </td>
                       <td className="px-5 py-4">
                         <span className={`text-sm font-bold ${p.stock < 10 ? 'text-red-500' : 'text-green-600'}`}>

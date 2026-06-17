@@ -42,6 +42,7 @@ CREATE TABLE `products` (
   `slug` VARCHAR(255) NOT NULL UNIQUE,
   `price` DECIMAL(10, 2) NOT NULL,
   `original_price` DECIMAL(10, 2) DEFAULT NULL,
+  `shipping_cost` DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
   `stock` INT NOT NULL DEFAULT 0,
   `description` TEXT NOT NULL,
   `ingredients` TEXT DEFAULT NULL,
@@ -136,10 +137,10 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `role`) VALUES
 (2, 'Jane Doe', 'jane@example.com', '$2b$10$2t/aNVNVhqKDwfk4MK4HuOccYUGy7ouFmN6Yoby85QLltrRoSV4Ee', '0987654321', 'user');
 
 -- Insert Products
-INSERT INTO `products` (`id`, `name`, `slug`, `price`, `original_price`, `stock`, `description`, `ingredients`, `benefits`, `offers`, `image_url`, `subtitle`, `rating`, `tag`, `category_id`, `is_active`, `is_featured`) VALUES
-(1, 'AMALA PLUS', 'amala-plus', 1099.00, 1499.00, 50, 'Premium Ayurvedic blend for natural fat reduction.', 'Amala, Garcinia Cambogia, Green Tea Extract', 'Boosts metabolism\nSupports natural weight management\nRich in Vitamin C', 'Buy 2 Get 1 Free', 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop', 'Sip & Slim', 4.8, 'Sale', 1, 1, 1),
-(2, 'AVARAM POO PLUS', 'avaram-poo-plus', 1099.00, 1499.00, 45, 'Traditional support for healthy sugar balance.', 'Avaram Poo (Senna auriculata), Jamun Seed, Fenugreek', 'Helps regulate blood sugar levels\nDetoxifies the body\nImproves skin health', 'Flat 10% Off', 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=500&auto=format&fit=crop', 'Sugar Killer', 4.7, 'Trending', 2, 1, 1),
-(3, 'HERBAL SLIM TEA', 'herbal-slim-tea', 899.00, 1200.00, 100, 'Everyday detox tea for maintaining clean digestion and shape.', 'Green Tea, Lemon Grass, Ginger', 'Enhances digestion\nPromotes fat burning\nRefreshing taste', 'New Launch Price', 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&auto=format&fit=crop', 'Daily Detox', 4.5, 'New', 1, 1, 0);
+INSERT INTO `products` (`id`, `name`, `slug`, `price`, `original_price`, `shipping_cost`, `stock`, `description`, `ingredients`, `benefits`, `offers`, `image_url`, `subtitle`, `rating`, `tag`, `category_id`, `is_active`, `is_featured`) VALUES
+(1, 'AMALA PLUS', 'amala-plus', 1099.00, 1499.00, 0.00, 50, 'Premium Ayurvedic blend for natural fat reduction.', 'Amala, Garcinia Cambogia, Green Tea Extract', 'Boosts metabolism\nSupports natural weight management\nRich in Vitamin C', 'Buy 2 Get 1 Free', 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop', 'Sip & Slim', 4.8, 'Sale', 1, 1, 1),
+(2, 'AVARAM POO PLUS', 'avaram-poo-plus', 1099.00, 1499.00, 0.00, 45, 'Traditional support for healthy sugar balance.', 'Avaram Poo (Senna auriculata), Jamun Seed, Fenugreek', 'Helps regulate blood sugar levels\nDetoxifies the body\nImproves skin health', 'Flat 10% Off', 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=500&auto=format&fit=crop', 'Sugar Killer', 4.7, 'Trending', 2, 1, 1),
+(3, 'HERBAL SLIM TEA', 'herbal-slim-tea', 899.00, 1200.00, 0.00, 100, 'Everyday detox tea for maintaining clean digestion and shape.', 'Green Tea, Lemon Grass, Ginger', 'Enhances digestion\nPromotes fat burning\nRefreshing taste', 'New Launch Price', 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&auto=format&fit=crop', 'Daily Detox', 4.5, 'New', 1, 1, 0);
 
 -- Insert Testimonials
 INSERT INTO `testimonials` (`id`, `customer_name`, `video_url`, `rating`, `caption`, `is_active`) VALUES
