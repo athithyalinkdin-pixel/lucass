@@ -32,13 +32,7 @@ if (!DB_HOST || !DB_USER || !DB_PASSWORD || !DB_NAME) {
         });
     } catch (err) {
         console.error('❌ Failed to initialize MySQL pool:', err.message);
-        if (process.env.NODE_ENV === 'production') {
-            console.error('CRITICAL: Running in production. WILL NOT fall back to mock database.');
-            useMock = false;
-        } else {
-            console.warn('⚠️ Falling back to persistent in-memory JSON database.');
-            useMock = true;
-        }
+        throw err; // Fail loudly so we know there is a database config or firewall issue
     }
 }
 
@@ -589,13 +583,8 @@ if (realPool) {
         console.log('✅ MySQL Database connected successfully.');
     }).catch(err => {
         console.error('❌ MySQL Database connection failed on startup:', err.message);
-        if (process.env.NODE_ENV === 'production') {
-            console.error('CRITICAL: Running in production mode. WILL NOT fall back to mock database.');
-            useMock = false;
-        } else {
-            console.warn('⚠️ Falling back to persistent in-memory JSON database.');
-            useMock = true;
-        }
+        console.error('Please verify your Hostinger database credentials and remote access settings (whitelisting).');
+        // Do NOT fall back to the mock database if DB credentials exist
     });
 }
 
