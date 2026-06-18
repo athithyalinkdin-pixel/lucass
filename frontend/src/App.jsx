@@ -1,5 +1,6 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import FloatingLeaves from './components/FloatingLeaves';
@@ -44,6 +45,67 @@ const PageLoading = () => (
     </p>
   </div>
 );
+
+// Animated Order Success Page
+const OrderSuccessPage = () => {
+  const navigate = useNavigate();
+  const [countdown, setCountdown] = useState(6);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          navigate('/dashboard');
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [navigate]);
+
+  return (
+    <div className="pt-48 pb-32 text-center text-primary max-w-xl mx-auto px-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="bg-white/60 backdrop-blur-md rounded-3xl p-10 border border-accent/20 shadow-premium"
+      >
+        <div className="w-20 h-20 bg-secondary/10 text-secondary rounded-full flex items-center justify-center mx-auto mb-6 relative">
+          <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <motion.path
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 0.8, ease: "easeInOut", delay: 0.2 }}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="3"
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+        </div>
+        <h1 className="text-3xl font-black mb-4 font-serif">Order Successful!</h1>
+        <p className="text-primary/60 mb-6">
+          Thank you for choosing Lucas Agro & Naturals. Your payment has been verified, and your order is being processed.
+        </p>
+        <div className="text-xs font-bold text-secondary bg-secondary/5 border border-secondary/10 rounded-2xl py-3 px-6 mb-8 max-w-sm mx-auto">
+          🔄 Redirecting to your dashboard in <span className="text-sm font-black">{countdown}</span> seconds...
+        </div>
+        <div className="flex gap-4 justify-center">
+          <Link to="/" className="btn-secondary py-3 px-8 text-xs uppercase tracking-wider font-extrabold">
+            Continue Shopping
+          </Link>
+          <Link to="/dashboard" className="btn-primary py-3 px-8 text-xs uppercase tracking-wider font-extrabold">
+            View My Orders
+          </Link>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
 
 function App() {
   return (
@@ -146,22 +208,7 @@ function App() {
               path="/order-success"
               element={
                 <ProtectedRoute>
-                  <div className="pt-48 pb-32 text-center text-primary max-w-xl mx-auto px-4">
-                    <div className="bg-white/60 backdrop-blur-md rounded-3xl p-10 border border-accent/20 shadow-premium">
-                      <div className="w-20 h-20 bg-secondary/10 text-secondary rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                      <h1 className="text-3xl font-black mb-4 font-serif">Order Successful!</h1>
-                      <p className="text-primary/60 mb-8">
-                        Thank you for choosing Lucas Agro & Naturals. Your payment has been verified, and your order is being processed.
-                      </p>
-                      <Link to="/dashboard" className="btn-primary py-3 px-8 text-sm uppercase tracking-wider font-bold">
-                        View My Orders
-                      </Link>
-                    </div>
-                  </div>
+                  <OrderSuccessPage />
                 </ProtectedRoute>
               }
             />
@@ -172,7 +219,5 @@ function App() {
     </div>
   );
 }
-
-import { Link } from 'react-router-dom';
 
 export default App;

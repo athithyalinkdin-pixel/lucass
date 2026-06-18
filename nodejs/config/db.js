@@ -12,7 +12,11 @@ let realPool = null;
 let useMock = false;
 
 if (!DB_HOST || !DB_USER || !DB_PASSWORD || !DB_NAME) {
-    console.warn('⚠️ Database environment variables missing. Falling back to persistent in-memory JSON database.');
+    if (process.env.NODE_ENV === 'production') {
+        console.error('❌ CRITICAL ERROR: Database environment variables are missing in production!');
+    } else {
+        console.warn('⚠️ Database environment variables missing. Falling back to persistent in-memory JSON database.');
+    }
     useMock = true;
 } else {
     try {
@@ -27,8 +31,14 @@ if (!DB_HOST || !DB_USER || !DB_PASSWORD || !DB_NAME) {
             queueLimit: 0
         });
     } catch (err) {
-        console.warn('⚠️ Failed to initialize MySQL pool. Falling back to persistent in-memory JSON database.', err.message);
-        useMock = true;
+        console.error('❌ Failed to initialize MySQL pool:', err.message);
+        if (process.env.NODE_ENV === 'production') {
+            console.error('CRITICAL: Running in production. WILL NOT fall back to mock database.');
+            useMock = false;
+        } else {
+            console.warn('⚠️ Falling back to persistent in-memory JSON database.');
+            useMock = true;
+        }
     }
 }
 
@@ -515,7 +525,11 @@ const poolWrapper = {
         try {
             return await realPool.execute(query, params);
         } catch (err) {
-            console.error('MySQL execute error, trying mock fallback:', err.message);
+            console.error('MySQL execute error:', err.message);
+            if (process.env.NODE_ENV === 'production') {
+                throw err;
+            }
+            console.warn('Trying mock fallback...');
             useMock = true;
             return executeMock(query, params);
         }
@@ -527,7 +541,11 @@ const poolWrapper = {
         try {
             return await realPool.query(query, params);
         } catch (err) {
-            console.error('MySQL query error, trying mock fallback:', err.message);
+            console.error('MySQL query error:', err.message);
+            if (process.env.NODE_ENV === 'production') {
+                throw err;
+            }
+            console.warn('Trying mock fallback...');
             useMock = true;
             return executeMock(query, params);
         }
@@ -547,7 +565,11 @@ const poolWrapper = {
             const conn = await realPool.getConnection();
             return conn;
         } catch (err) {
-            console.error('MySQL getConnection error, falling back to mock:', err.message);
+            console.error('MySQL getConnection error:', err.message);
+            if (process.env.NODE_ENV === 'production') {
+                throw err;
+            }
+            console.warn('Falling back to mock database...');
             useMock = true;
             return {
                 execute: async (q, p) => executeMock(q, p),
@@ -566,8 +588,14 @@ if (realPool) {
     realPool.query('SELECT 1').then(() => {
         console.log('✅ MySQL Database connected successfully.');
     }).catch(err => {
-        console.warn('⚠️ MySQL Database connection failed. Falling back to persistent in-memory JSON database.', err.message);
-        useMock = true;
+        console.error('❌ MySQL Database connection failed on startup:', err.message);
+        if (process.env.NODE_ENV === 'production') {
+            console.error('CRITICAL: Running in production mode. WILL NOT fall back to mock database.');
+            useMock = false;
+        } else {
+            console.warn('⚠️ Falling back to persistent in-memory JSON database.');
+            useMock = true;
+        }
     });
 }
 

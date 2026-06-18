@@ -32,9 +32,61 @@
     <meta name="twitter:title" content="Lucas Agro & Naturals | Premium Ayurvedic Solutions" />
     <meta name="twitter:description" content="Premium Ayurvedic herbal supplements for weight, sugar, and heart health. Reclaim your health naturally with Lucas Agro & Naturals." />
     <meta name="twitter:image" content="https://lucasagronaturals.com/assets/logo.png" />
+    <style>
+      .initial-loader-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #FAF9F6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+      .initial-loader-logo {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 24px;
+        animation: pulse-grow 2s infinite ease-in-out;
+        object-fit: contain;
+      }
+      .initial-loader-spinner {
+        width: 32px;
+        height: 32px;
+        border: 3px solid rgba(18, 60, 28, 0.1);
+        border-top-color: #123c1c;
+        border-radius: 50%;
+        animation: spin-around 1s infinite linear;
+      }
+      .initial-loader-text {
+        margin-top: 16px;
+        color: #123c1c;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      @keyframes spin-around {
+        to { transform: rotate(360deg); }
+      }
+      @keyframes pulse-grow {
+        0%, 100% { transform: scale(1); opacity: 0.9; }
+        50% { transform: scale(1.06); opacity: 1; }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="initial-loader-wrapper">
+        <img class="initial-loader-logo" src="/assets/logo.png" alt="Lucas Agro & Naturals Logo" />
+        <div class="initial-loader-spinner"></div>
+        <div class="initial-loader-text">Loading Wellness...</div>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
