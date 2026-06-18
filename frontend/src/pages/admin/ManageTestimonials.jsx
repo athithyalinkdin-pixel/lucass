@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Star, Edit, Trash2, X, Film } from 'lucide-react';
 import api from '../../services/api';
 import AdminNav from '../../components/AdminNav';
+import { getImageUrl } from '../../utils/imageHelper';
 
 // Testimonial Form Modal Component
 const TestimonialEditModal = ({ testimonial, onClose, onSave }) => {
@@ -81,12 +82,12 @@ const TestimonialEditModal = ({ testimonial, onClose, onSave }) => {
     const isVideo = /\.(mp4|webm|ogg|mov|m4v)($|\?)/i.test(url) || url.includes('video');
     if (isVideo) {
       return (
-        <video src={url} className="w-full h-full object-cover" controls />
+        <video src={getImageUrl(url)} className="w-full h-full object-cover" controls />
       );
     }
 
     return (
-      <img src={url} className="w-full h-full object-contain p-2" alt="Preview" />
+      <img src={getImageUrl(url)} className="w-full h-full object-contain p-2" alt="Preview" />
     );
   };
 
@@ -312,7 +313,7 @@ const renderAdminMedia = (url, name) => {
     return (
       <div className="rounded-xl overflow-hidden bg-black aspect-video">
         <video
-          src={url}
+          src={getImageUrl(url)}
           controls
           className="w-full h-full object-cover"
         />
@@ -324,7 +325,7 @@ const renderAdminMedia = (url, name) => {
   return (
     <div className="rounded-xl overflow-hidden bg-white aspect-video flex items-center justify-center border border-accent">
       <img
-        src={url}
+        src={getImageUrl(url, name)}
         alt={name}
         className="w-full h-full object-cover"
         onError={(e) => {

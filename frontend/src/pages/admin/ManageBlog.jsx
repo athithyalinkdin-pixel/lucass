@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, FileText, Check, AlertCircle, Edit, Trash2, X } from 'lucide-react';
 import api from '../../services/api';
+import { getImageUrl } from '../../utils/imageHelper';
 import AdminNav from '../../components/AdminNav';
 
 // Blog Form Modal Component
@@ -111,7 +112,7 @@ const BlogEditModal = ({ post, onClose, onSave }) => {
             <label className="block text-xs font-bold text-primary/50 uppercase tracking-wider mb-1.5">Featured Image *</label>
             {formData.featured_image ? (
               <div className="relative group rounded-2xl overflow-hidden border border-accent aspect-video max-h-40 bg-bg-off-white flex items-center justify-center p-2">
-                <img src={formData.featured_image} className="h-full object-contain rounded-xl" alt="Blog Preview" />
+                <img src={getImageUrl(formData.featured_image)} className="h-full object-contain rounded-xl" alt="Blog Preview" />
                 <div className="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
                   <label className="bg-white text-primary px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer hover:bg-accent transition-colors">
                     Change
@@ -289,7 +290,7 @@ const ManageBlog = () => {
               >
                 {blog.featured_image ? (
                   <img
-                    src={blog.featured_image}
+                    src={getImageUrl(blog.featured_image)}
                     alt={blog.title}
                     className="w-20 h-16 rounded-xl object-cover border border-accent flex-shrink-0"
                   />

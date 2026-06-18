@@ -1,5 +1,5 @@
 // Image URL Helper to format local, relative, and fallback images in production
-const API_URL = import.meta.env.VITE_API_URL || 'https://lucass-6.onrender.com/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://lucass-7.onrender.com/api';
 const backendBase = API_URL.replace('/api', '');
 
 export const getImageUrl = (url, name) => {

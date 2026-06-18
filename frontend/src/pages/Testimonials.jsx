@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Star, MessageSquare, Quote, ArrowRight, Film } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
+import { getImageUrl } from '../utils/imageHelper';
 
 const renderTestimonialMedia = (url, name) => {
   if (!url) {
@@ -41,7 +42,7 @@ const renderTestimonialMedia = (url, name) => {
   if (isVideo) {
     return (
       <video
-        src={url}
+        src={getImageUrl(url, name)}
         controls
         className="w-full h-full object-cover"
         onError={(e) => {
@@ -54,7 +55,7 @@ const renderTestimonialMedia = (url, name) => {
   // Treat as image URL
   return (
     <img
-      src={url}
+      src={getImageUrl(url, name)}
       alt={name}
       className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
       onError={(e) => {

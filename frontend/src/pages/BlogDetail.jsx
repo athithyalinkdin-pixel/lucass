@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, Calendar, User, Share2 } from 'lucide-react';
 import DOMPurify from 'dompurify';
 import api from '../services/api';
+import { getImageUrl } from '../utils/imageHelper';
 
 const BlogDetail = () => {
   const { slug } = useParams();
@@ -61,7 +62,7 @@ const BlogDetail = () => {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: blog.title,
-    image: [blog.featured_image || 'https://example.com/placeholder.jpg'],
+    image: [getImageUrl(blog.featured_image)],
     datePublished: blog.created_at,
     author: [
       {
@@ -123,7 +124,7 @@ const BlogDetail = () => {
             </h1>
             <div className="aspect-video bg-accent/10 rounded-[2.5rem] overflow-hidden mb-12 relative flex items-center justify-center">
               {blog.featured_image ? (
-                <img src={blog.featured_image} alt={blog.title} className="w-full h-full object-cover" />
+                <img src={getImageUrl(blog.featured_image)} alt={blog.title} className="w-full h-full object-cover" />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center text-primary/5">
                   <Calendar size={200} />

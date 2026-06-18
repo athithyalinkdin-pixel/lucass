@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Search, Package, Check, XCircle, Edit, Trash2, X } from 'lucide-react';
 import api from '../../services/api';
 import AdminNav from '../../components/AdminNav';
+import { getImageUrl } from '../../utils/imageHelper';
 
 // Product Form Modal Component
 const ProductEditModal = ({ product, categories, onClose, onSave }) => {
@@ -222,7 +223,7 @@ const ProductEditModal = ({ product, categories, onClose, onSave }) => {
             <label className="block text-xs font-bold text-primary/50 uppercase tracking-wider mb-1.5">Product Image *</label>
             {formData.image_url ? (
               <div className="relative group rounded-2xl overflow-hidden border border-accent aspect-square max-h-36 bg-bg-off-white flex items-center justify-center p-2">
-                <img src={formData.image_url} className="h-full object-contain rounded-lg" alt="Product Preview" />
+                <img src={getImageUrl(formData.image_url)} className="h-full object-contain rounded-lg" alt="Product Preview" />
                 <div className="absolute inset-0 bg-primary/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
                   <label className="bg-white text-primary px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer hover:bg-accent transition-colors">
                     Change
@@ -481,7 +482,7 @@ const ManageProducts = () => {
                         <div className="flex items-center gap-3">
                           {p.image_url ? (
                             <img
-                              src={p.image_url}
+                              src={getImageUrl(p.image_url)}
                               alt={p.name}
                               className="w-10 h-10 rounded-lg object-cover border border-accent"
                             />

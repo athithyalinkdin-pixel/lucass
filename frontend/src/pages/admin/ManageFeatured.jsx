@@ -5,6 +5,7 @@ import { Star, Package, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import AdminNav from '../../components/AdminNav';
+import { getImageUrl } from '../../utils/imageHelper';
 
 const ManageFeatured = () => {
   const [products, setProducts] = useState([]);
@@ -140,7 +141,7 @@ const ManageFeatured = () => {
                         <div className="flex items-center gap-4">
                           <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center p-1 border border-accent/40 shadow-sm flex-shrink-0">
                             <img
-                              src={product.image_url || 'https://placehold.co/100x100?text=Ayurveda'}
+                              src={getImageUrl(product.image_url, product.name)}
                               alt={product.name}
                               className="w-full h-full object-contain"
                               onError={(e) => {

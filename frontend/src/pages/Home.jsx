@@ -42,7 +42,7 @@ const renderTestimonialMedia = (url, name) => {
   if (isVideo) {
     return (
       <video
-        src={url}
+        src={getImageUrl(url, name)}
         controls
         className="w-full h-full object-cover"
         onError={(e) => {

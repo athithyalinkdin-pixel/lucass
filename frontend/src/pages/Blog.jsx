@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Calendar, User, ArrowRight } from 'lucide-react';
 import api from '../services/api';
+import { getImageUrl } from '../utils/imageHelper';
 
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
@@ -92,7 +93,7 @@ const Blog = () => {
                 <div className="aspect-video bg-accent/10 relative overflow-hidden flex items-center justify-center">
                   {blog.featured_image ? (
                     <img
-                      src={blog.featured_image}
+                      src={getImageUrl(blog.featured_image)}
                       alt={blog.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
