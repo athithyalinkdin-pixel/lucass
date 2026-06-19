@@ -123,7 +123,7 @@ const ProductDetail = () => {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="glass-card w-full aspect-square bg-white flex items-center justify-center p-6 overflow-hidden shadow-premium max-w-[400px] max-h-[400px] mx-auto relative"
+            className="glass-card w-full aspect-square bg-white flex items-center justify-center p-4 overflow-hidden shadow-premium max-w-[600px] mx-auto relative"
           >
             {!imageLoaded && (
               <div className="absolute inset-0 bg-accent/10 animate-pulse flex items-center justify-center">
