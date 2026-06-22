@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
         setUser(data);
       } catch (error) {
         setUser(null);
+        localStorage.removeItem('lucas_token'); // Clear potentially invalid/expired token
       } finally {
         setLoading(false);
       }
@@ -32,6 +33,9 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const { data } = await api.post('/auth/login', { email, password });
+      if (data.token) {
+        localStorage.setItem('lucas_token', data.token);
+      }
       setUser(data);
       return data;
     } catch (error) {
@@ -42,6 +46,9 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       const { data } = await api.post('/auth/register', userData);
+      if (data.token) {
+        localStorage.setItem('lucas_token', data.token);
+      }
       setUser(data);
       return data;
     } catch (error) {
@@ -52,6 +59,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await api.post('/auth/logout');
+      localStorage.removeItem('lucas_token');
       setUser(null);
     } catch (error) {
       console.error('Logout error:', error);
