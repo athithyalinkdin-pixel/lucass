@@ -11,9 +11,55 @@ const About = () => {
         <title>About Us | Lucas Agro & Naturals</title>
       </Helmet>
 
-      {/* Story Section */}
-      <section className="py-32 bg-white relative overflow-hidden pt-40">
+      {/* Company Overview Section */}
+      <section className="py-24 bg-white relative overflow-hidden pt-40 border-b border-accent/20">
         <div className="absolute top-0 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-[100px] pointer-events-none" />
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="grid lg:grid-cols-2 gap-20 items-center max-w-7xl mx-auto">
+            {/* Info Text */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <span className="text-secondary font-bold uppercase tracking-[0.3em] text-xs mb-4 block flex items-center gap-2">
+                <div className="w-8 h-[1px] bg-secondary" /> Lucas Agro & Naturals
+              </span>
+              <h1 className="text-4xl md:text-5xl font-black text-primary italic mb-8 leading-tight font-serif">
+                About The Company
+              </h1>
+              <div className="space-y-6 text-primary/70 text-lg leading-relaxed font-medium">
+                <p className="text-primary/80 font-semibold">
+                  Lucas Agro & Naturals is a wellness-focused company dedicated to bringing the benefits of nature to everyday life. With a commitment to quality, purity, and innovation, we develop natural wellness products inspired by traditional herbal knowledge and supported by modern manufacturing standards.
+                </p>
+                <p>
+                  Our mission is to promote healthier lifestyles by offering carefully formulated products made from natural ingredients that support overall well-being. We believe that nature provides some of the best solutions for maintaining health, vitality, and balance in today’s fast-paced world.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Image */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative"
+            >
+              <div className="absolute inset-0 bg-secondary/20 rounded-[3rem] transform rotate-3 scale-105" />
+              <img
+                src="https://images.unsplash.com/photo-1540331547168-8b63109225b7?auto=format&fit=crop&q=80&w=1000"
+                className="relative z-10 rounded-[3rem] shadow-2xl object-cover aspect-square hover:scale-105 transition-transform duration-700 w-full"
+                alt="Traditional Herbal Sourcing"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Story Section */}
+      <section className="py-24 bg-bg-off-white relative overflow-hidden">
         <div className="container mx-auto px-4 md:px-8">
           <div className="grid lg:grid-cols-2 gap-20 items-center max-w-7xl mx-auto">
             {/* Image stack */}
@@ -26,9 +72,9 @@ const About = () => {
             >
               <div className="absolute inset-0 bg-secondary/20 rounded-[3rem] transform -rotate-3 scale-105" />
               <img
-                src="https://images.unsplash.com/photo-1540331547168-8b63109225b7?auto=format&fit=crop&q=80&w=1000"
+                src="/assets/yourstory.jpeg"
                 className="relative z-10 rounded-[3rem] shadow-2xl object-cover aspect-square hover:scale-105 transition-transform duration-700"
-                alt="Traditional Herbal Sourcing"
+                alt="Our Journey"
               />
             </motion.div>
 
@@ -105,6 +151,74 @@ const About = () => {
         </div>
       </section>
 
+      {/* Product Portfolio Section */}
+      <section className="py-24 bg-white relative">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+          <div className="text-center mb-16">
+            <span className="text-secondary font-bold uppercase tracking-[0.3em] text-xs mb-4 block">Flagship Solutions</span>
+            <h2 className="text-4xl md:text-5xl font-black text-primary italic mb-6 font-serif">Product Portfolio</h2>
+            <p className="text-primary/60 text-lg max-w-2xl mx-auto font-medium">
+              All of our flagship targeted wellness syrups come expertly standardized in premium 500 ML bottles.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                letter: 'A',
+                name: 'AMLA PLUS',
+                tagline: 'Sip & Slim',
+                benefit: 'Formulated to help clear heart blockages and prevent PCOD.',
+                spec: 'LAB TESTED; Total Antioxidant Content Test – 480mg/ 100g'
+              },
+              {
+                letter: 'B',
+                name: 'AVARAMPOO PLUS',
+                tagline: 'Sugar Killer',
+                benefit: 'Powerful sugar control action and comprehensive kidney detox.',
+                spec: 'LAB TESTED; Total Antioxidant Content Test – 480mg/ 100g'
+              },
+              {
+                letter: 'C',
+                name: 'THIPPILI PLUS',
+                tagline: 'Lung & Immunity',
+                benefit: 'Targets stronger lung capacity and provides full respiratory immunity support.',
+                spec: 'LAB TESTED; Total Antioxidant Content Test – 480mg/ 100g'
+              },
+              {
+                letter: 'D',
+                name: 'LIV GOLD 26',
+                tagline: 'Liver Detox',
+                benefit: 'Supports liver health and natural body detoxification.',
+                spec: 'LAB TESTED; Total Antioxidant Content Test – 480mg/ 100g'
+              }
+            ].map((prod, idx) => (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                key={idx}
+                className="bg-bg-off-white p-8 rounded-[2rem] border border-accent/20 flex flex-col justify-between shadow-premium hover:-translate-y-2 transition-transform duration-300"
+              >
+                <div>
+                  <div className="w-12 h-12 rounded-2xl bg-primary text-secondary flex items-center justify-center font-black text-xl mb-6 shadow-sm">
+                    ({prod.letter})
+                  </div>
+                  <h3 className="text-xl font-extrabold text-primary mb-1">{prod.name}</h3>
+                  <span className="text-xs font-bold uppercase tracking-widest text-secondary block mb-4">{prod.tagline}</span>
+                  <p className="text-primary/70 text-sm font-medium leading-relaxed mb-6">{prod.benefit}</p>
+                </div>
+                <div className="border-t border-accent/40 pt-4 mt-auto">
+                  <span className="text-[10px] font-black uppercase text-secondary block mb-1">Specification</span>
+                  <p className="text-[11px] font-bold text-primary/60 leading-tight">{prod.spec}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Mission & Vision Section */}
       <section className="py-32 bg-[#E8EFE9] relative overflow-hidden">
         <div className="absolute top-0 right-0 opacity-10 pointer-events-none transform -translate-y-1/4 translate-x-1/4">
@@ -126,8 +240,11 @@ const About = () => {
             >
               <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/20 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2 group-hover:scale-150 transition-transform duration-1000" />
               <h3 className="text-3xl font-black mb-6 italic text-secondary relative z-10 font-serif">Our Mission</h3>
-              <p className="text-white/80 text-xl leading-relaxed italic relative z-10 font-medium">
-                Deliver safe, natural, and effective solutions that empower you to take control of your health.
+              <p className="text-white text-lg leading-relaxed mb-6 relative z-10 font-semibold">
+                To develop safe, effective, and natural wellness solutions while creating opportunities for personal growth, entrepreneurship, and community development.
+              </p>
+              <p className="text-white/60 text-sm leading-relaxed italic relative z-10 font-medium border-t border-white/10 pt-4">
+                Empowerment Goal: Deliver safe, natural, and effective solutions that empower you to take control of your health.
               </p>
             </motion.div>
 
@@ -141,8 +258,11 @@ const About = () => {
             >
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2 group-hover:scale-150 transition-transform duration-1000" />
               <h3 className="text-3xl font-black mb-6 italic text-secondary relative z-10 font-serif">Our Vision</h3>
-              <p className="text-primary/70 text-xl leading-relaxed italic relative z-10 font-medium">
-                To become a trusted Ayurvedic wellness brand known for integrity, quality, and real results.
+              <p className="text-primary text-lg leading-relaxed mb-6 relative z-10 font-semibold">
+                To become a trusted leader in natural wellness by empowering people with high-quality herbal products that support healthy living.
+              </p>
+              <p className="text-primary/50 text-sm leading-relaxed italic relative z-10 font-medium border-t border-secondary/20 pt-4">
+                Target: To become a trusted Ayurvedic wellness brand known for integrity, quality, and real results.
               </p>
             </motion.div>
           </div>
@@ -223,6 +343,61 @@ const About = () => {
         </div>
       </section>
 
+      {/* Why Choose Us Section */}
+      <section className="py-24 bg-white relative border-t border-accent/20">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+          <div className="text-center mb-16">
+            <span className="text-secondary font-bold uppercase tracking-[0.3em] text-xs mb-4 block">Proven Strengths</span>
+            <h2 className="text-4xl md:text-5xl font-black text-primary italic mb-6 font-serif">Why Choose Us?</h2>
+            <div className="w-24 h-1 bg-secondary mx-auto rounded-full" />
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                title: 'Nature-Inspired Formulation',
+                desc: 'Crafted using carefully selected herbal ingredients inspired by traditional wellness.'
+              },
+              {
+                title: 'Premium Quality Ingredients',
+                desc: 'Prioritizing precise quality sourcing and stringent modern manufacturing standards.'
+              },
+              {
+                title: 'Comprehensive Support',
+                desc: 'Formulas designed to target modern lifestyle ailments, promoting vitality and systemic balance.'
+              },
+              {
+                title: 'Customer-Centric Approach',
+                desc: 'Dedicated to delivering lasting trust, value, and authentic wellness solutions.'
+              },
+              {
+                title: 'Innovation with Tradition',
+                desc: 'Combining ancient herbal wisdom with state-of-the-art hygienic processing techniques.'
+              },
+              {
+                title: 'Convenient Daily Wellness',
+                desc: 'Syrups are easy to integrate seamlessly into busy daily schedules.'
+              }
+            ].map((item, idx) => (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                key={idx}
+                className="bg-bg-off-white p-8 rounded-[2rem] border border-accent/20 shadow-sm hover:shadow-md transition-shadow duration-300"
+              >
+                <h4 className="text-lg font-bold text-primary mb-3 italic font-serif flex items-center gap-3">
+                  <span className="w-2 h-2 rounded-full bg-secondary flex-shrink-0" />
+                  {item.title}
+                </h4>
+                <p className="text-primary/65 text-sm font-medium leading-relaxed pl-5">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Trust certifications list */}
       <section className="py-20 bg-bg-off-white relative border-y border-primary/5">
         <div className="container mx-auto px-4">
@@ -269,6 +444,114 @@ const About = () => {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Business Opportunity Section */}
+      <section className="py-24 bg-primary text-white relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-secondary/15 rounded-full blur-[120px] pointer-events-none" />
+        </div>
+
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
+          {/* Header */}
+          <div className="text-center mb-20 max-w-3xl mx-auto">
+            <span className="text-secondary font-bold uppercase tracking-[0.3em] text-xs mb-4 block">Independent Venture</span>
+            <h2 className="text-4xl md:text-5xl font-black italic font-serif mb-6 text-white">Business Opportunity</h2>
+            <p className="text-white/80 text-xl font-bold leading-relaxed mb-6 italic text-secondary">
+              "Turn Your Passion for Wellness into a Profitable Independent Venture!"
+            </p>
+            <p className="text-white/70 text-base leading-relaxed font-medium">
+              Lucas Agro & Naturals offers an exciting opportunity to build an independent business. Whether you are a student, homemaker, or retiree, our direct selling model provides a flexible pathway to growth, personal growth, entrepreneurship, and community development.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-16 items-start mb-20">
+            {/* Left: Why Join Our Network */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="bg-white/5 backdrop-blur-md p-10 rounded-[2.5rem] border border-white/10 text-left"
+            >
+              <h3 className="text-2xl font-black mb-8 italic text-secondary font-serif">Why Join Our Network?</h3>
+              <div className="grid sm:grid-cols-2 gap-8">
+                {[
+                  {
+                    title: 'No Investment, High Potential',
+                    desc: 'High commercial growth horizons with very affordable startup option.'
+                  },
+                  {
+                    title: 'Flexible Working Hours',
+                    desc: 'Work entirely at your own pace alongside existing family or job commitments.'
+                  },
+                  {
+                    title: 'Training & Full Support',
+                    desc: 'Receive regular professional guidance, product training, and leadership mentorship.'
+                  },
+                  {
+                    title: 'Personal Development',
+                    desc: 'Rapidly enhance your communication, public relations, and sales leadership.'
+                  }
+                ].map((item, idx) => (
+                  <div key={idx} className="space-y-2">
+                    <h4 className="font-extrabold text-white text-base leading-tight">{item.title}</h4>
+                    <p className="text-white/60 text-xs leading-relaxed font-medium">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Right: Who Can Join & Highlights */}
+            <div className="space-y-8 text-left">
+              {/* Who Can Join */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="bg-white/5 backdrop-blur-md p-10 rounded-[2.5rem] border border-white/10"
+              >
+                <h3 className="text-2xl font-black mb-6 italic text-secondary font-serif">Who Can Join?</h3>
+                <p className="text-white/70 text-sm font-semibold mb-6">Perfect for all individuals:</p>
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    'Students & Retirees',
+                    'Homemakers & Freelancers',
+                    'Working Professionals seeking passive income',
+                    'Health & Wellness Enthusiasts'
+                  ].map((role, idx) => (
+                    <div key={idx} className="bg-white/10 px-4 py-3 rounded-2xl border border-white/5 flex items-center gap-3">
+                      <div className="w-2 h-2 rounded-full bg-secondary flex-shrink-0" />
+                      <span className="text-xs font-bold text-white/90 leading-tight">{role}</span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Compensation Highlights */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="bg-secondary p-10 rounded-[2.5rem] shadow-xl text-white relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+                <h3 className="text-2xl font-black mb-6 italic text-white font-serif">Compensation Highlights</h3>
+                <ul className="space-y-4">
+                  {[
+                    'Generous Retail Profits & Direct Referral Incentives',
+                    'Team Performance Rewards & Milestones',
+                    'Performance-Based Bonuses & Leadership Recognition'
+                  ].map((benefit, idx) => (
+                    <li key={idx} className="flex gap-4 items-start text-sm font-semibold leading-relaxed">
+                      <Check className="text-primary flex-shrink-0 bg-white rounded-full p-1" size={20} />
+                      <span>{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>

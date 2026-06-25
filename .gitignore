@@ -17,3 +17,6 @@ public_html/
 
 # Zip packages
 *.zip
+
+# Local build folder
+lucas-frontend-build-new/

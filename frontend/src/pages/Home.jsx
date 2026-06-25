@@ -248,7 +248,7 @@ const Home = () => {
                 </div>
                 <div className="absolute -bottom-16 right-1/3 w-40 h-40 rounded-full border-8 border-white/10 backdrop-blur-md overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.5)] z-30 hidden lg:block animate-float">
                   <img
-                    src="/assets/media__1777521578363.jpg"
+                    src="/assets/homescreen-.jpeg"
                     className="w-full h-full object-cover scale-110"
                     alt="Moody Craft"
                     onError={(e) => {
@@ -559,7 +559,7 @@ const Home = () => {
           >
             <div className="absolute inset-0 bg-secondary/20 rounded-3xl transform rotate-3 scale-105 transition-transform duration-700 hover:rotate-0" />
             <img
-              src="https://images.unsplash.com/photo-1705601117024-34fd1224bbcb?q=80&w=1170&auto=format&fit=crop"
+              src="/assets/whychooseus.jpeg"
               className="rounded-3xl shadow-2xl relative z-10 object-cover w-full aspect-[4/5] md:aspect-square hover:scale-105 transition-transform duration-700"
               alt="Ayurvedic Herbs"
               onError={(e) => {
