@@ -159,7 +159,7 @@ const Home = () => {
       <section className="relative min-h-screen flex items-center overflow-hidden bg-primary pt-20">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=2000"
+            src="/assets/home_hero_bg_new.png"
             className="w-full h-full object-cover brightness-[0.4] scale-110"
             alt="Nature Background"
           />
@@ -226,36 +226,6 @@ const Home = () => {
                     e.target.src = 'https://images.unsplash.com/photo-1512061659335-288e5f84c3f5?auto=format&fit=crop&q=80&w=1000';
                   }}
                 />
-                <div className="absolute -top-16 -left-12 w-48 h-48 rounded-full border-8 border-white/10 backdrop-blur-md overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.5)] z-40 hidden lg:block animate-float">
-                  <img
-                    src="/assets/media__1777521578330.jpg"
-                    className="w-full h-full object-cover scale-110"
-                    alt="Herbal Medley"
-                    onError={(e) => {
-                      e.target.src = 'https://images.unsplash.com/photo-1540331547168-8b63109225b7?auto=format&fit=crop&q=80&w=600';
-                    }}
-                  />
-                </div>
-                <div className="absolute bottom-10 -left-40 w-56 h-56 rounded-full border-8 border-white/10 backdrop-blur-md overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.5)] z-40 hidden lg:block animate-float-delayed">
-                  <img
-                    src="/assets/media__1777521578395.jpg"
-                    className="w-full h-full object-cover scale-110"
-                    alt="Traditional Mortar"
-                    onError={(e) => {
-                      e.target.src = 'https://images.unsplash.com/photo-1517142089942-ba376ce32a2e?auto=format&fit=crop&q=80&w=600';
-                    }}
-                  />
-                </div>
-                <div className="absolute -bottom-16 right-1/3 w-40 h-40 rounded-full border-8 border-white/10 backdrop-blur-md overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.5)] z-30 hidden lg:block animate-float">
-                  <img
-                    src="/assets/homescreen-.jpeg"
-                    className="w-full h-full object-cover scale-110"
-                    alt="Moody Craft"
-                    onError={(e) => {
-                      e.target.src = 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=600';
-                    }}
-                  />
-                </div>
               </div>
 
               {/* Stat Card 1 */}
@@ -276,7 +246,7 @@ const Home = () => {
                 transition={{ duration: 0.8, delay: 0.8 }}
                 className="absolute bottom-32 right-20 bg-white/10 backdrop-blur-2xl p-8 rounded-3xl border border-white/20 shadow-[0_30px_60px_rgba(0,0,0,0.4)] animate-float-delayed z-30 min-w-[240px]"
               >
-                <p className="text-4xl font-black text-secondary leading-tight">20k +</p>
+                <p className="text-4xl font-black text-secondary leading-tight">30k+</p>
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/90">Trusted Customers</p>
               </motion.div>
             </motion.div>
@@ -351,21 +321,11 @@ const Home = () => {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="relative w-4/5 aspect-square rounded-lg overflow-hidden shadow-xl border-4 border-white">
+            <div className="relative w-full aspect-[4/3] md:aspect-[16/10] rounded-[2.5rem] overflow-hidden shadow-xl border-4 border-white">
               <img
-                src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800"
-                className="w-full h-full object-cover"
+                src="/assets/about_yoga_new.jpeg"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                 alt="Ayurvedic Heritage"
-              />
-            </div>
-            <div className="absolute -bottom-10 -right-4 w-3/5 aspect-square rounded-lg overflow-hidden shadow-2xl border-[12px] border-white z-10">
-              <img
-                src="/assets/ayurvedic-wellness-prep.png"
-                className="w-full h-full object-cover"
-                alt="Ayurvedic Wellness Preparation"
-                onError={(e) => {
-                  e.target.src = 'https://images.unsplash.com/photo-1615840287214-7ff58936c4cf?auto=format&fit=crop&q=80&w=600';
-                }}
               />
             </div>
             <div className="absolute -bottom-6 left-10 z-20">

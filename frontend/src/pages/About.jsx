@@ -49,7 +49,7 @@ const About = () => {
             >
               <div className="absolute inset-0 bg-secondary/20 rounded-[3rem] transform rotate-3 scale-105" />
               <img
-                src="https://images.unsplash.com/photo-1540331547168-8b63109225b7?auto=format&fit=crop&q=80&w=1000"
+                src="/assets/about_company_new.jpeg"
                 className="relative z-10 rounded-[3rem] shadow-2xl object-cover aspect-square hover:scale-105 transition-transform duration-700 w-full"
                 alt="Traditional Herbal Sourcing"
               />
@@ -325,7 +325,7 @@ const About = () => {
               className="relative"
             >
               <img
-                src="https://images.unsplash.com/photo-1615840287214-7ff58936c4cf?auto=format&fit=crop&q=80&w=1000"
+                src="/assets/about_quality_new.jpeg"
                 className="rounded-[3rem] shadow-2xl object-cover aspect-[4/5] w-full hover:scale-105 transition-transform duration-700"
                 alt="Quality Lab Manufacturing"
               />
