@@ -160,9 +160,11 @@ const Home = () => {
         <div className="absolute inset-0 z-0">
           <img
             src="/assets/home_hero_bg_new.png"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover brightness-[0.4] scale-110"
             alt="Nature Background"
           />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/40 to-transparent" />
+          <div className="absolute inset-0 bg-black/20" />
         </div>
 
         <div className="container mx-auto px-4 md:px-8 relative z-10">

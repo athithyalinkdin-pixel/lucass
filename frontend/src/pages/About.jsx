@@ -50,7 +50,7 @@ const About = () => {
               <div className="absolute inset-0 bg-secondary/20 rounded-[3rem] transform rotate-3 scale-105" />
               <img
                 src="/assets/about_company_new.jpeg"
-                className="relative z-10 rounded-[3rem] shadow-2xl object-cover aspect-square hover:scale-105 transition-transform duration-700 w-full"
+                className="relative z-10 rounded-[3rem] shadow-2xl object-cover aspect-[2/3] hover:scale-105 transition-transform duration-700 w-full"
                 alt="Traditional Herbal Sourcing"
               />
             </motion.div>
