@@ -157,14 +157,12 @@ const Home = () => {
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center overflow-hidden bg-primary pt-20">
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 flex items-center justify-center">
           <img
             src="/assets/home_hero_bg_new.png"
-            className="w-full h-full object-cover brightness-[0.4] scale-110"
+            className="w-full h-full object-contain"
             alt="Nature Background"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/40 to-transparent" />
-          <div className="absolute inset-0 bg-black/20" />
         </div>
 
         <div className="container mx-auto px-4 md:px-8 relative z-10">
@@ -324,7 +322,7 @@ const Home = () => {
             <div className="relative w-full aspect-[4/3] md:aspect-[16/10] rounded-[2.5rem] overflow-hidden shadow-xl border-4 border-white">
               <img
                 src="/assets/about_yoga_new.jpeg"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-contain hover:scale-105 transition-transform duration-700"
                 alt="Ayurvedic Heritage"
               />
             </div>
