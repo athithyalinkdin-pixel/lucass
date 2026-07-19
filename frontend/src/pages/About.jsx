@@ -50,7 +50,7 @@ const About = () => {
               <div className="absolute inset-0 bg-secondary/20 rounded-[3rem] transform rotate-3 scale-105" />
               <img
                 src="/assets/about_company_new.jpeg"
-                className="relative z-10 rounded-[3rem] shadow-2xl object-contain aspect-square hover:scale-105 transition-transform duration-700 w-full"
+                className="relative z-10 rounded-[3rem] shadow-2xl object-cover aspect-square hover:scale-105 transition-transform duration-700 w-full"
                 alt="Traditional Herbal Sourcing"
               />
             </motion.div>
@@ -326,7 +326,7 @@ const About = () => {
             >
               <img
                 src="/assets/about_quality_new.jpeg"
-                className="rounded-[3rem] shadow-2xl object-contain aspect-[4/5] w-full hover:scale-105 transition-transform duration-700"
+                className="rounded-[3rem] shadow-2xl object-cover aspect-[4/5] w-full hover:scale-105 transition-transform duration-700"
                 alt="Quality Lab Manufacturing"
               />
               <div className="absolute -bottom-10 -left-10 bg-white p-8 rounded-[2rem] shadow-[0_20px_60px_rgba(0,0,0,0.1)] flex items-center gap-6 hidden md:flex z-20">
