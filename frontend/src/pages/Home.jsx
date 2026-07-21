@@ -159,7 +159,7 @@ const Home = () => {
       <section className="relative min-h-screen flex items-center overflow-hidden bg-primary pt-20">
         <div className="absolute inset-0 z-0">
           <img
-            src="/assets/home_hero_bg_new.png"
+            src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=2000"
             className="w-full h-full object-cover brightness-[0.4] scale-110"
             alt="Nature Background"
           />
